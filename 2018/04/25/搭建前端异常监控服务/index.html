@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="最近公司的业务系统和几个对外应用Web端进入了最后测试阶段，随之带来的问题是每次出现问题都要测试人员主动联系我们开发者，但有时又无法重现， 既浪费时间， 又无法及时有效解决异常。因此，我觉得搭建一个前端异常监控系统， 用来实时收集前端异常， 及时解决前端异常。">
+<meta name="keywords" content="前端,监控">
+<meta property="og:type" content="article">
+<meta property="og:title" content="搭建前端异常监控系统">
+<meta property="og:url" content="https://qimajiang.com/2018/04/25/搭建前端异常监控服务/index.html">
+<meta property="og:site_name" content="启码匠 - 磨刀霍霍向编程">
+<meta property="og:description" content="最近公司的业务系统和几个对外应用Web端进入了最后测试阶段，随之带来的问题是每次出现问题都要测试人员主动联系我们开发者，但有时又无法重现， 既浪费时间， 又无法及时有效解决异常。因此，我觉得搭建一个前端异常监控系统， 用来实时收集前端异常， 及时解决前端异常。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tKfTcgy1fr1wtqpfcyj305q09oq2u.jpg">
+<meta property="og:updated_time" content="2019-06-24T06:11:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="搭建前端异常监控系统">
+<meta name="twitter:description" content="最近公司的业务系统和几个对外应用Web端进入了最后测试阶段，随之带来的问题是每次出现问题都要测试人员主动联系我们开发者，但有时又无法重现， 既浪费时间， 又无法及时有效解决异常。因此，我觉得搭建一个前端异常监控系统， 用来实时收集前端异常， 及时解决前端异常。">
+<meta name="twitter:image" content="https://ws3.sinaimg.cn/large/006tKfTcgy1fr1wtqpfcyj305q09oq2u.jpg">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://qimajiang.com/2018/04/25/搭建前端异常监控服务/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>搭建前端异常监控系统 | 启码匠 - 磨刀霍霍向编程</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">启码匠 - 磨刀霍霍向编程</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">磨刀霍霍向编程</h1>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://qimajiang.com/2018/04/25/搭建前端异常监控服务/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="启码匠">
+      <meta itemprop="description" content="学习如磨刀， 需要不断温故。">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="启码匠 - 磨刀霍霍向编程">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">搭建前端异常监控系统
+
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-04-25 21:44:00" itemprop="dateCreated datePublished" datetime="2018-04-25T21:44:00+08:00">2018-04-25</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-24 14:11:04" itemprop="dateModified" datetime="2019-06-24T14:11:04+08:00">2019-06-24</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ul>
+<li>最近公司的业务系统和几个对外应用Web端进入了最后测试阶段，随之带来的问题是每次出现问题都要测试人员主动联系我们开发者，但有时又无法重现， 既浪费时间， 又无法及时有效解决异常。因此，我觉得搭建一个前端异常监控系统， 用来实时收集前端异常， 及时解决前端异常。<a id="more"></a>
+
+</li>
+</ul>
+<h1 id="一、开源监控服务的优劣"><a href="#一、开源监控服务的优劣" class="headerlink" title="一、开源监控服务的优劣"></a>一、开源监控服务的优劣</h1><p>在日常的工作中，我们在开发某个功能或者应用之前， 都会先搜寻一下是否有相似的开源项目，以此来提高开发效率。在前端监控系统这类项目中， 我比较喜欢<a href="https://github.com/getsentry/sentry" target="_blank" rel="noopener">Sentry</a>这个项目：</p>
+<h4 id="1、功能齐全，包括多项目管理，-团队与成员的管理，可视化统计分析，issues分配等等。"><a href="#1、功能齐全，包括多项目管理，-团队与成员的管理，可视化统计分析，issues分配等等。" class="headerlink" title="1、功能齐全，包括多项目管理， 团队与成员的管理，可视化统计分析，issues分配等等。"></a>1、功能齐全，包括多项目管理， 团队与成员的管理，可视化统计分析，issues分配等等。</h4><h4 id="2、SDK丰富，-包括了JavaScript，-Nodejs，-Java等等收集工具。"><a href="#2、SDK丰富，-包括了JavaScript，-Nodejs，-Java等等收集工具。" class="headerlink" title="2、SDK丰富， 包括了JavaScript， Nodejs， Java等等收集工具。"></a>2、SDK丰富， 包括了JavaScript， Nodejs， Java等等收集工具。</h4><h4 id="3、可以采用Docker安装，容器化管理数据。"><a href="#3、可以采用Docker安装，容器化管理数据。" class="headerlink" title="3、可以采用Docker安装，容器化管理数据。"></a>3、可以采用Docker安装，容器化管理数据。</h4><h4 id="4、项目一直在维护更新。"><a href="#4、项目一直在维护更新。" class="headerlink" title="4、项目一直在维护更新。"></a>4、项目一直在维护更新。</h4><p>但功能齐全的背后带来的问题就是，每个公司都会有客制化的需求， 而要想在如此庞大的项目中二次开发是十分吃力的。对于我们公司目前的开发力量开始， 暂时无法分配人员专门客制化Sentry。</p>
+<h1 id="二、收集日志的方法"><a href="#二、收集日志的方法" class="headerlink" title="二、收集日志的方法"></a>二、收集日志的方法</h1><p>收集日志的手段，基本是两种，一个是逻辑中的错误判断，为主动判断；一个是利用语言给我们提供的捷径，暴力式获取错误信息，如<code>try..catch</code> 和 <code>window.onerror</code>。</p>
+<h3 id="1-上报Ajax请求错误"><a href="#1-上报Ajax请求错误" class="headerlink" title="1 上报Ajax请求错误"></a>1 上报Ajax请求错误</h3><p>就公司目前的开发栈来说， 前后端通讯都是依靠rest api，尤其在使用React这种前端框架后， 在axios的请求中会出现无法预料的错误与异常。那么此时我们需要主动调用日志上报工具收集错误并发给监控系统。</p>
+<p>在axios的响应拦截中(示例)：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//响应拦截</span><br><span class="line">axios.interceptors.response.use(</span><br><span class="line">    response =&gt; &#123;</span><br><span class="line">        </span><br><span class="line">            return response.data;</span><br><span class="line">       </span><br><span class="line">    error =&gt; &#123;</span><br><span class="line">        appStore.hideLoading();</span><br><span class="line">        Reporter.send(&#123;</span><br><span class="line">            &#123;</span><br><span class="line">    error: error</span><br><span class="line">    msg: &quot;ajax error&quot;</span><br><span class="line">  &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">        return Promise.reject(error);</span><br><span class="line">    &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<h3 id="2、使用try-catch捕获"><a href="#2、使用try-catch捕获" class="headerlink" title="2、使用try..catch捕获"></a>2、使用<code>try..catch</code>捕获</h3><p>判断某个函数或某段代码里存在错误：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">try &#123;</span><br><span class="line">  fetch();</span><br><span class="line">   </span><br><span class="line">&#125; catch(e)&#123;</span><br><span class="line">  Reporter.send(e);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在React应用中， 可以使用组件的 <code>componentOnCatch</code>来捕获该组件内所有错误</p>
+<h3 id="3、window-onerror"><a href="#3、window-onerror" class="headerlink" title="3、window.onerror"></a>3、<code>window.onerror</code></h3><p>捕获全局错误</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">window.onerror =  () =&gt; &#123;</span><br><span class="line">  var errInfo = format(arguments);</span><br><span class="line">  Reporter.send(errInfo);</span><br><span class="line">  return true;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>在上面的函数中返回 <code>return true</code>，控制台不会输出错误信息。下面是它的参数信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * @param &#123;String&#125;  errorMessage   错误信息</span><br><span class="line"> * @param &#123;String&#125;  scriptURI      出错的文件</span><br><span class="line"> * @param &#123;Long&#125;    lineNumber     出错代码的行号</span><br><span class="line"> * @param &#123;Long&#125;    columnNumber   出错代码的列号</span><br><span class="line"> * @param &#123;Object&#125;  errorObj       错误的详细信息，Anything</span><br><span class="line"> */</span><br><span class="line">window.onerror = function(errorMessage, scriptURI, lineNumber,columnNumber,errorObj) &#123; </span><br><span class="line">    // code..</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="三、前端上报异常的坑"><a href="#三、前端上报异常的坑" class="headerlink" title="三、前端上报异常的坑"></a>三、前端上报异常的坑</h1><h3 id="1、无具体报错信息，Script-error"><a href="#1、无具体报错信息，Script-error" class="headerlink" title="1、无具体报错信息，Script error."></a>1、无具体报错信息，<code>Script error</code>.</h3><p>在日常开发中我们会医用一些第三方库， 当这些库在我们的应用中出现异常时， 由于浏览器的安全限制，我们无法捕获到具体的错误和错误位置，目的是避免数据泄露到不安全的域中。</p>
+<h3 id="2、-异常上报跨域限制"><a href="#2、-异常上报跨域限制" class="headerlink" title="2、 异常上报跨域限制"></a>2、 异常上报跨域限制</h3><p>这也是由于浏览器的同源策略， 不予对非同源的资源进行操作。但通常异常监控系统与目标应用都是不同源， 这就涉及到一个跨域问题了。在React的开发中，若使用rest api进行通讯， 也需要配置反向代理才能进行Ajax请求。</p>
+<p>那我们该如何在异常上报中打破跨域的限制呢？</p>
+<p>在上报的HTTP的投中加入 <code>header(&#39;Access-Control-Allow-Origin: *&#39;)</code> 同样，在服务中也需要设置 <code>Access-Control-Allow-Origin</code>的响应头。</p>
+<h3 id="3、压缩代码无法定位到错误位置。"><a href="#3、压缩代码无法定位到错误位置。" class="headerlink" title="3、压缩代码无法定位到错误位置。"></a>3、压缩代码无法定位到错误位置。</h3><p>在我们的日常开发中，我们使用Debug可以定位到代码错误的哪一行哪一列。但在生产环境中的代码通常是经过压缩的，按照正常debug方法， 显示的错误位置都是第一行。那么我们如何解决呢？</p>
+<p>第一个想到的办法是利用 sourceMap，利用它可以定位到压缩代码某一点在未压缩代码的具体位置。下面是 sourceMap 引入的格式，在代码的最后一行加入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//# sourceMappingURL=index.js.map</span><br></pre></td></tr></table></figure>
+
+<h3 id="4、切勿重复注册error事件"><a href="#4、切勿重复注册error事件" class="headerlink" title="4、切勿重复注册error事件"></a>4、切勿重复注册error事件</h3><p>在以前的前端应用中，很容易出现这个问题。在React这种单页面应用， 我们只需要在应用的入口处注册我们的error事件即可。保证error事件只被注册一次， 以免漏掉错误发生点。</p>
+<h3 id="5、异常上报频率"><a href="#5、异常上报频率" class="headerlink" title="5、异常上报频率"></a>5、异常上报频率</h3><p>我们当然希望把所有的错误上上报到监控系统中， 但一旦应用十分庞大时， 上报的频率会非常大， 在一定程度上会影响前端应用的性能。这个只能根据实际项目去衡量得失了。</p>
+<h1 id="四、设计监控系统"><a href="#四、设计监控系统" class="headerlink" title="四、设计监控系统"></a>四、设计监控系统</h1><p>对于前端开发人员来说， 最熟悉的还是Nodejs了。因此我们决定使用Nodejs搭建一个简单的异常收集与监控系统。</p>
+<h3 id="1、数据库设计"><a href="#1、数据库设计" class="headerlink" title="1、数据库设计"></a>1、数据库设计</h3><p>在数据库想选择上当然是MongoDB了 ， 适合存储格式不统一的日志文本。</p>
+<p>创建四个文档：</p>
+<p>####（1）<code>user</code> 用于存储监控系统的用户和角色等控制。</p>
+<h4 id="2-bug-用于存储前端上报的错误与异常。"><a href="#2-bug-用于存储前端上报的错误与异常。" class="headerlink" title="(2) bug 用于存储前端上报的错误与异常。"></a>(2) <code>bug</code> 用于存储前端上报的错误与异常。</h4><h4 id="3-project-目前来说我们的有不止一个的前端项目，-所有监控系统需要支持多项目管理，-存储不同的项目的上报KEY，用于统计和分析。"><a href="#3-project-目前来说我们的有不止一个的前端项目，-所有监控系统需要支持多项目管理，-存储不同的项目的上报KEY，用于统计和分析。" class="headerlink" title="(3) project 目前来说我们的有不止一个的前端项目， 所有监控系统需要支持多项目管理， 存储不同的项目的上报KEY，用于统计和分析。"></a>(3) <code>project</code> 目前来说我们的有不止一个的前端项目， 所有监控系统需要支持多项目管理， 存储不同的项目的上报KEY，用于统计和分析。</h4><h4 id="4-ajax-用于ajax请求中上报的错误，-ajax的错误或许会很多，-而且错误格式与window-error不一致，-所以将两者分开存储。"><a href="#4-ajax-用于ajax请求中上报的错误，-ajax的错误或许会很多，-而且错误格式与window-error不一致，-所以将两者分开存储。" class="headerlink" title="(4) ajax 用于ajax请求中上报的错误， ajax的错误或许会很多， 而且错误格式与window.error不一致， 所以将两者分开存储。"></a>(4) <code>ajax</code> 用于ajax请求中上报的错误， ajax的错误或许会很多， 而且错误格式与window.error不一致， 所以将两者分开存储。</h4><p>剩下的就是各个文档中的字段设计了， 这里就不赘述了。</p>
+<h3 id="2、系统架构设计"><a href="#2、系统架构设计" class="headerlink" title="2、系统架构设计"></a>2、系统架构设计</h3><p><img src="https://ws3.sinaimg.cn/large/006tKfTcgy1fr1wtqpfcyj305q09oq2u.jpg" alt=""></p>
+<ul>
+<li><p><code>config</code> 用于一些系统配置</p>
+</li>
+<li><p><code>controllers</code> 用于系统控制器，接受http请求被返回处理后的结果</p>
+</li>
+<li><p><code>lib</code> 用于系统函数和工具函数</p>
+</li>
+<li><p><code>models</code> 用于数据模型的定于与设计</p>
+</li>
+<li><p><code>router</code> 用于系统的路由定义</p>
+</li>
+<li><p><code>services</code> 用于封装数据库的查询服务</p>
+</li>
+<li><p><code>app.js</code> 是整个Nodejs系统的入口，启动http服务和连接数据库等等。</p>
+</li>
+</ul>
+<h3 id="3、reast-api设计"><a href="#3、reast-api设计" class="headerlink" title="3、reast api设计"></a>3、reast api设计</h3><p>在rest通讯中最重要的一点就是使用token进行用户的认证与授权（JWT）， 我在这里使用的是<code>jsonwebtoken</code></p>
+<p>在控制器的方法中定义http的请求的类型、参数和响应体，总体难度不大， 根据项目实际需求来设计。</p>
+<h1 id="五、-最后"><a href="#五、-最后" class="headerlink" title="五、 最后"></a>五、 最后</h1><p>到目前为止我们的简单异常监控系统初具雏形了，剩下的就是如何填充血肉了。在整个系统的设计中还是学到不少知识， 有些东西因为时间久了，有些遗忘，不得不去重新学习。因此，作为一个开发者， 最重要的还是要时刻保持求贤若渴的心态许学习心知识和温故旧知识。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/前端/" rel="tag"># 前端</a>
+          
+            <a href="/tags/监控/" rel="tag"># 监控</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/24/构建企业内部React组件库/" rel="next" title="构建企业内部React组件库">
+                <i class="fa fa-chevron-left"></i> 构建企业内部React组件库
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/19/SVG入门与实践/" rel="prev" title="SVG入门与实践">
+                SVG入门与实践 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">启码匠</p>
+              <div class="site-description motion-element" itemprop="description">学习如磨刀， 需要不断温故。</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">47</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、开源监控服务的优劣"><span class="nav-number">1.</span> <span class="nav-text">一、开源监控服务的优劣</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、功能齐全，包括多项目管理，-团队与成员的管理，可视化统计分析，issues分配等等。"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">1、功能齐全，包括多项目管理， 团队与成员的管理，可视化统计分析，issues分配等等。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、SDK丰富，-包括了JavaScript，-Nodejs，-Java等等收集工具。"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">2、SDK丰富， 包括了JavaScript， Nodejs， Java等等收集工具。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、可以采用Docker安装，容器化管理数据。"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">3、可以采用Docker安装，容器化管理数据。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、项目一直在维护更新。"><span class="nav-number">1.0.0.4.</span> <span class="nav-text">4、项目一直在维护更新。</span></a></li></ol></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#二、收集日志的方法"><span class="nav-number">2.</span> <span class="nav-text">二、收集日志的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-上报Ajax请求错误"><span class="nav-number">2.0.1.</span> <span class="nav-text">1 上报Ajax请求错误</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、使用try-catch捕获"><span class="nav-number">2.0.2.</span> <span class="nav-text">2、使用try..catch捕获</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、window-onerror"><span class="nav-number">2.0.3.</span> <span class="nav-text">3、window.onerror</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、前端上报异常的坑"><span class="nav-number">3.</span> <span class="nav-text">三、前端上报异常的坑</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、无具体报错信息，Script-error"><span class="nav-number">3.0.1.</span> <span class="nav-text">1、无具体报错信息，Script error.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、-异常上报跨域限制"><span class="nav-number">3.0.2.</span> <span class="nav-text">2、 异常上报跨域限制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、压缩代码无法定位到错误位置。"><span class="nav-number">3.0.3.</span> <span class="nav-text">3、压缩代码无法定位到错误位置。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、切勿重复注册error事件"><span class="nav-number">3.0.4.</span> <span class="nav-text">4、切勿重复注册error事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、异常上报频率"><span class="nav-number">3.0.5.</span> <span class="nav-text">5、异常上报频率</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、设计监控系统"><span class="nav-number">4.</span> <span class="nav-text">四、设计监控系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、数据库设计"><span class="nav-number">4.0.1.</span> <span class="nav-text">1、数据库设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-bug-用于存储前端上报的错误与异常。"><span class="nav-number">4.0.1.1.</span> <span class="nav-text">(2) bug 用于存储前端上报的错误与异常。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-project-目前来说我们的有不止一个的前端项目，-所有监控系统需要支持多项目管理，-存储不同的项目的上报KEY，用于统计和分析。"><span class="nav-number">4.0.1.2.</span> <span class="nav-text">(3) project 目前来说我们的有不止一个的前端项目， 所有监控系统需要支持多项目管理， 存储不同的项目的上报KEY，用于统计和分析。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-ajax-用于ajax请求中上报的错误，-ajax的错误或许会很多，-而且错误格式与window-error不一致，-所以将两者分开存储。"><span class="nav-number">4.0.1.3.</span> <span class="nav-text">(4) ajax 用于ajax请求中上报的错误， ajax的错误或许会很多， 而且错误格式与window.error不一致， 所以将两者分开存储。</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、系统架构设计"><span class="nav-number">4.0.2.</span> <span class="nav-text">2、系统架构设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、reast-api设计"><span class="nav-number">4.0.3.</span> <span class="nav-text">3、reast api设计</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五、-最后"><span class="nav-number">5.</span> <span class="nav-text">五、 最后</span></a></li></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">启码匠</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.1.2</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>

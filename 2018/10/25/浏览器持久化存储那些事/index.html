@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="现在前后端分离是比较流行的开发方案，在 SPA 的开发过程中难免需要存储一些数据到浏览器，比如认证判断的 Token 。现代常用浏览器的本地持久存储方案基本分为Cookie、 LocalStorage（sessionStorage）和IndexedDB。本文就不讨论 Cookie了。">
+<meta name="keywords" content="前端,浏览器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浏览器持久化存储那些事">
+<meta property="og:url" content="https://qimajiang.com/2018/10/25/浏览器持久化存储那些事/index.html">
+<meta property="og:site_name" content="启码匠 - 磨刀霍霍向编程">
+<meta property="og:description" content="现在前后端分离是比较流行的开发方案，在 SPA 的开发过程中难免需要存储一些数据到浏览器，比如认证判断的 Token 。现代常用浏览器的本地持久存储方案基本分为Cookie、 LocalStorage（sessionStorage）和IndexedDB。本文就不讨论 Cookie了。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-24T06:11:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="浏览器持久化存储那些事">
+<meta name="twitter:description" content="现在前后端分离是比较流行的开发方案，在 SPA 的开发过程中难免需要存储一些数据到浏览器，比如认证判断的 Token 。现代常用浏览器的本地持久存储方案基本分为Cookie、 LocalStorage（sessionStorage）和IndexedDB。本文就不讨论 Cookie了。">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://qimajiang.com/2018/10/25/浏览器持久化存储那些事/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>浏览器持久化存储那些事 | 启码匠 - 磨刀霍霍向编程</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">启码匠 - 磨刀霍霍向编程</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">磨刀霍霍向编程</h1>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://qimajiang.com/2018/10/25/浏览器持久化存储那些事/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="启码匠">
+      <meta itemprop="description" content="学习如磨刀， 需要不断温故。">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="启码匠 - 磨刀霍霍向编程">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">浏览器持久化存储那些事
+
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-10-25 21:31:25" itemprop="dateCreated datePublished" datetime="2018-10-25T21:31:25+08:00">2018-10-25</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-24 14:11:04" itemprop="dateModified" datetime="2019-06-24T14:11:04+08:00">2019-06-24</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>现在前后端分离是比较流行的开发方案，在 SPA 的开发过程中难免需要存储一些数据到浏览器，比如认证判断的 <code>Token</code> 。现代常用浏览器的本地持久存储方案基本分为<code>Cookie</code>、 <code>LocalStorage（sessionStorage）</code>和<code>IndexedDB</code>。本文就不讨论 <code>Cookie</code>了。</p>
+<a id="more"></a>
+
+<h1 id="一、LocalStorage-sessionStorage-的概念"><a href="#一、LocalStorage-sessionStorage-的概念" class="headerlink" title="一、LocalStorage(sessionStorage)的概念"></a>一、<code>LocalStorage(sessionStorage)</code>的概念</h1><p>LocalStorage 是 HTML5加入的一个新特性，从命名就知道其目的是作为本地存储来使用，解决了 <code>Cookie</code> 存储空间不足的问题，一般 <code>LocalStorage</code> 在浏览器的存储空间是<code>5MB</code>,而 <code>Cookie</code>中每条 <code>cookie</code> 大约是<code>4KB</code>。<code>SessionStorage</code> 与 <code>LocalStorage</code> 唯一的区别是：<code>SessionStorage</code> 在会话结束时就会被 清空数据，而<code>LocalStorage</code> 可以持久存储。</p>
+<h2 id="LocalStorage的优劣"><a href="#LocalStorage的优劣" class="headerlink" title="LocalStorage的优劣"></a><code>LocalStorage</code>的优劣</h2><p>1、<code>LocalStorage</code>存储空间明显提升，可以存储较多的数据；</p>
+<p>2、<code>LocalStorage</code>可以长久存储数据，只要存储一次就可以长久保留在本地，除非主动清空数据；</p>
+<p>3、<code>LocalStorage</code>是 <code>HTML5</code>的新特性，只会被现代浏览器支持，IE8以下的IE浏览器就不支持该特性;</p>
+<p>4、<code>LocalStorage</code> 只能存储字符串</p>
+<p>5、在隐私模式下，不能使用 <code>LocalStorage</code>;</p>
+<p>6、<code>LocalStorage</code> 不会被爬虫嗅探并抓取；</p>
+<p>7、<code>LocalStorage</code>的使用是遵循同源策略。</p>
+<h2 id="LocalStorage的使用方法"><a href="#LocalStorage的使用方法" class="headerlink" title="LocalStorage的使用方法"></a><code>LocalStorage</code>的使用方法</h2><p>1、在使用 <code>LocalStorage</code>之前需要检测当前浏览器是否支持。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(!<span class="built_in">window</span>.localStorage)&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"浏览器 不支持LocalStorage"</span>);</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125; </span><br><span class="line"><span class="comment">//正常使用 LocalStorage</span></span><br></pre></td></tr></table></figure>
+
+<p>2、<code>LocalStorage</code> 的数据写入可以有3种方式，其实都是键值对操作：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(!<span class="built_in">window</span>.localStorage)&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"浏览器 不支持LocalStorage"</span>);</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125; </span><br><span class="line"><span class="comment">//正常使用 LocalStorage</span></span><br><span class="line"> <span class="keyword">const</span> storage=<span class="built_in">window</span>.localStorage;</span><br><span class="line">           </span><br><span class="line">            storage[<span class="string">"count"</span>]=<span class="number">1</span>;</span><br><span class="line">            </span><br><span class="line">            storage.name=<span class="string">'qimajiang'</span>;</span><br><span class="line">            <span class="comment">//写入存储进去的搜索字符串类型</span></span><br><span class="line">            storage.setItem(<span class="string">"other"</span>,<span class="number">3</span>);</span><br></pre></td></tr></table></figure>
+
+<p>一般使用 <code>storage.setItem</code>这种方式比较好。</p>
+<p>3、<code>LocalStorage</code> 的数据读取</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(!<span class="built_in">window</span>.localStorage)&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"浏览器 不支持LocalStorage"</span>);</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125; </span><br><span class="line"><span class="comment">//正常使用 LocalStorage</span></span><br><span class="line"> <span class="keyword">const</span> storage=<span class="built_in">window</span>.localStorage;</span><br><span class="line">           </span><br><span class="line">           <span class="built_in">console</span>.log(storage[<span class="string">'count'</span>])<span class="comment">//1</span></span><br><span class="line">            </span><br><span class="line">            <span class="built_in">console</span>.log(storage.name);<span class="comment">//'qimajiang'</span></span><br><span class="line">            </span><br><span class="line">           <span class="built_in">console</span>.log(storage.getItem(<span class="string">"other"</span>);)<span class="comment">//3</span></span><br></pre></td></tr></table></figure>
+
+<p>一般使用 <code>storage.getItem</code>这种方式比较好。</p>
+<p>4、<code>LocalStorage</code> 的其他数据操作</p>
+<p>删除某个键值:<code>window.localStorage.removeItem(&#39;key&#39;)</code></p>
+<p>清空当前网站的<code>LocalStorage</code>：<code>window.localStorage.clear()</code></p>
+<hr>
+<p>一般使用 <code>LocalStorage</code> 来存储简单的数据（字符串）就可以满足了，但在日益复杂的应用开发中，难免需要存储复杂的结构化数据，而且有可能存储的数据超过<code>5MB</code>,这时我们就需要考虑使用 <code>IndexedDB</code> 了</p>
+<hr>
+<h1 id="二、IndexedDB-的概念"><a href="#二、IndexedDB-的概念" class="headerlink" title="二、IndexedDB 的概念"></a>二、<code>IndexedDB</code> 的概念</h1><p>1、<code>IndexedDB</code>顾名思义是一种内置在浏览器中数据库，而且是一种非关系型的数据库，即不需要编写<code>SQL</code>语句去操作数据库，而且存储的数据格式是<code>JSON</code>。</p>
+<p>2、<code>IndexedDB</code>不像我们平时服务器上使用的 NoSQL 数据库，<code>IndexedDB</code>没有表的概念，在<code>IndexedDB</code>中是叫<code>object store</code>,其实平时就可以把<code>object store</code>看做数据表。</p>
+<p>3、<code>IndexedDB</code>的每次操作都是一个事务，每一个对数据库操作是在一个事务的上下文中执行的。</p>
+<p>4、<code>IndexedDB</code>的每次数据库操作都需要先打款<code>object store</code>，再执行指定的操作，不能一直打开某个<code>object store</code>。</p>
+<p>5、<code>IndexedDB</code>的所有操作都是异步的。</p>
+<h1 id="三、IndexedDB在-React-中的实践"><a href="#三、IndexedDB在-React-中的实践" class="headerlink" title="三、IndexedDB在 React 中的实践"></a>三、<code>IndexedDB</code>在 <code>React</code> 中的实践</h1><p>因为我目前主要专注<code>React</code>项目的开发,而且<code>IndexedDB</code>的原生 api 有点奇怪，在我的项目中我是使用 <a href="https://dexie.org/" target="_blank" rel="noopener">Dexie</a>这个基于<code>IndexedDB</code>api 封装的操作库。后面就阐述一下如何使用<code>Dexie</code>进行<code>IndexedDB</code>的数据操作。</p>
+<p>1、安装<code>npm i -S dexie</code></p>
+<p>2、在项目根目录建立一个<code>db</code>文件夹，新建一个文件<code>db.js</code>,在<code>db.js</code>中定义数据库；</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> Dexie <span class="keyword">from</span> <span class="string">'dexie'</span>;</span><br><span class="line"><span class="keyword">const</span> db = <span class="keyword">new</span> Dexie(<span class="string">'HXDB'</span>);</span><br><span class="line"><span class="comment">//系统所有权限列表的数据</span></span><br><span class="line"><span class="keyword">const</span> SYSTEM_ALL_PERMISSIONS_SCHEMA = <span class="string">'code, name, module'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> DEXIE_STORES_1 = &#123;</span><br><span class="line"> </span><br><span class="line">	SYSTEM_ALL_PERMISSIONS: SYSTEM_ALL_PERMISSIONS_SCHEMA</span><br><span class="line">&#125;;</span><br><span class="line">db.version(<span class="number">2</span>).stores(DEXIE_STORES_1);</span><br><span class="line">db.version(<span class="number">1</span>).stores(DEXIE_STORES_1);<span class="comment">//定义版本</span></span><br><span class="line">db.open();<span class="comment">//打开数据库</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> db;<span class="comment">//模块化导出</span></span><br></pre></td></tr></table></figure>
+
+<p><code>IndexedDB</code>使用 <code>version</code> 来区分不同版本号，因为不同的版本可能使用不同的 <code>store</code> 结构，每次更改 <code>store</code> 的结构，需要增加 <code>version</code> 的值，而且旧的版本需要保留。</p>
+<p>3、数据操作</p>
+<p>在<code>db</code>目录中新建<code>operations.js</code>文件，定义一些常用的数据操作方法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> db <span class="keyword">from</span> <span class="string">'db/db'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Created By xun  on 2018-08-16 17:14.</span></span><br><span class="line"><span class="comment"> * Description: operations</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> getDBAllDataArray = <span class="keyword">async</span> tableName =&gt; &#123;</span><br><span class="line">	<span class="keyword">const</span> myTable = <span class="keyword">await</span> db[tableName];</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> myTable.toArray();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> getDBDataByKey = <span class="function">(<span class="params">tableName, key</span>) =&gt;</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> db.table(tableName).get(key);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 单个添加</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> addDBData = <span class="function">(<span class="params">tableName, values</span>) =&gt;</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> db.table(tableName).add(values);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 批量添加</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> addDBDataBatch = <span class="function">(<span class="params">tableName, values</span>) =&gt;</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> db.table(tableName).bulkAdd(values);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//存在就更新， 否则添加</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> softInsertDBData = <span class="keyword">async</span> (tableName, values, key = <span class="literal">null</span>) =&gt; &#123;</span><br><span class="line">	<span class="keyword">if</span> (!key) &#123;</span><br><span class="line">		<span class="keyword">return</span> addDBData(tableName, values);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">const</span> existed = <span class="keyword">await</span> getDBDataByKey(tableName, key);</span><br><span class="line">	<span class="keyword">if</span> (existed) &#123;</span><br><span class="line">		<span class="keyword">return</span> db.table(tableName).update(key, values);</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> addDBData(tableName, values);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//删除</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> deleteDBDataByKey = <span class="keyword">async</span> (tableName, key) =&gt; &#123;</span><br><span class="line">	<span class="keyword">return</span> db.table(tableName).delete(key);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//清空</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> clearAllDBData = <span class="keyword">async</span> tableName =&gt; &#123;</span><br><span class="line">	<span class="keyword">return</span> db.table(tableName).clear();</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p> 若要增加其他特殊的数据操作，就直接在<code>operations.js</code>文件中增加方法即可，避免重复的编码。</p>
+<hr>
+<p><code>IndexedDB</code>理论上的存储空间是电脑硬盘容量的一般，所以存储空间超级充足了。</p>
+<hr>
+<h1 id="四、解决IndexedDB的异步问题"><a href="#四、解决IndexedDB的异步问题" class="headerlink" title="四、解决IndexedDB的异步问题"></a>四、解决<code>IndexedDB</code>的异步问题</h1><p>前文有提到<code>IndexedDB</code>的所有数据操作都是异步的，在一些情况下我们需要模拟同步操作，例如把菜单的配置放在<code>IndexedDB</code>中，那么每次从<code>IndexedDB</code>获取到菜单定义数据后需要回调数据显示，有点麻烦。我在项目中使用<code>mobx</code>状态管理器来同步所有的<code>IndexedDB</code>数据，只有不刷新页面，就可以同步操作<code>IndexedDB</code>数据了。目前都是读取操作，数据都是从服务器配置好的，存储在<code>IndexedDB</code>是不需要每次从服务器获取。</p>
+<p>一般在更新<code>IndexedDB</code>中数据的时候，就更新<code>mobx</code>中的 store数据。</p>
+<h1 id="五、总结"><a href="#五、总结" class="headerlink" title="五、总结"></a>五、总结</h1><p>浏览器的本次存储在现在 web 应用开发中还是比较重要的，掌握了这些前端本地存储方法有利于提升应用以及应用共享数据。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/前端/" rel="tag"># 前端</a>
+          
+            <a href="/tags/浏览器/" rel="tag"># 浏览器</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/14/使用React一年的简单总结/" rel="next" title="使用React一年的简单总结">
+                <i class="fa fa-chevron-left"></i> 使用React一年的简单总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/21/React应用优化/" rel="prev" title="React应用优化">
+                React应用优化 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">启码匠</p>
+              <div class="site-description motion-element" itemprop="description">学习如磨刀， 需要不断温故。</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">47</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、LocalStorage-sessionStorage-的概念"><span class="nav-number">1.</span> <span class="nav-text">一、LocalStorage(sessionStorage)的概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#LocalStorage的优劣"><span class="nav-number">1.1.</span> <span class="nav-text">LocalStorage的优劣</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LocalStorage的使用方法"><span class="nav-number">1.2.</span> <span class="nav-text">LocalStorage的使用方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、IndexedDB-的概念"><span class="nav-number">2.</span> <span class="nav-text">二、IndexedDB 的概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、IndexedDB在-React-中的实践"><span class="nav-number">3.</span> <span class="nav-text">三、IndexedDB在 React 中的实践</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、解决IndexedDB的异步问题"><span class="nav-number">4.</span> <span class="nav-text">四、解决IndexedDB的异步问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五、总结"><span class="nav-number">5.</span> <span class="nav-text">五、总结</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">启码匠</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.1.2</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>

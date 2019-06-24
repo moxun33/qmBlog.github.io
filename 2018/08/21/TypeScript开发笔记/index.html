@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="在上一篇的文章中，学习了 TypeScript 的基本知识，以及 TS 在 React中的基本使用方法。在本文中，我们深入了解 TS在 React 中的实践。本文将采用 ant-design 作为基础的 UI 框架。">
+<meta name="keywords" content="React,TypeScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TypeScript开发笔记">
+<meta property="og:url" content="https://qimajiang.com/2018/08/21/TypeScript开发笔记/index.html">
+<meta property="og:site_name" content="启码匠 - 磨刀霍霍向编程">
+<meta property="og:description" content="在上一篇的文章中，学习了 TypeScript 的基本知识，以及 TS 在 React中的基本使用方法。在本文中，我们深入了解 TS在 React 中的实践。本文将采用 ant-design 作为基础的 UI 框架。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-24T06:11:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TypeScript开发笔记">
+<meta name="twitter:description" content="在上一篇的文章中，学习了 TypeScript 的基本知识，以及 TS 在 React中的基本使用方法。在本文中，我们深入了解 TS在 React 中的实践。本文将采用 ant-design 作为基础的 UI 框架。">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://qimajiang.com/2018/08/21/TypeScript开发笔记/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>TypeScript开发笔记 | 启码匠 - 磨刀霍霍向编程</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">启码匠 - 磨刀霍霍向编程</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">磨刀霍霍向编程</h1>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://qimajiang.com/2018/08/21/TypeScript开发笔记/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="启码匠">
+      <meta itemprop="description" content="学习如磨刀， 需要不断温故。">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="启码匠 - 磨刀霍霍向编程">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">TypeScript开发笔记
+
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-08-21 22:11:36" itemprop="dateCreated datePublished" datetime="2018-08-21T22:11:36+08:00">2018-08-21</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-24 14:11:04" itemprop="dateModified" datetime="2019-06-24T14:11:04+08:00">2019-06-24</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在上一篇的文章中，学习了 TypeScript 的基本知识，以及 TS 在 React中的基本使用方法。在本文中，我们深入了解 TS在 React 中的实践。本文将采用 ant-design 作为基础的 UI 框架。</p>
+<a id="more"></a>
+
+<h2 id="一、用-TS-创建-React-的-SFC-无状态组件"><a href="#一、用-TS-创建-React-的-SFC-无状态组件" class="headerlink" title="一、用 TS 创建 React 的 SFC(无状态组件)"></a>一、用 TS 创建 React 的 SFC(无状态组件)</h2><p>在本次实践中，我们基于 antd 创建一个统一的 Input Form组件。该组件可以同时支持基本 Input、InputNumber和 Input.Text,我们将定义 <code>elementTypeEnum</code>来判断该使用哪个输入组件。</p>
+<p>1、引入 antd 的 <code>Form, Input, InputNumber</code>组件（HXInputItem）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123; Form, Input, InputNumber &#125; <span class="keyword">from</span> <span class="string">"antd"</span>;</span><br></pre></td></tr></table></figure>
+
+<p>2、定义输入类型的枚举</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">enum elementTypeEnum &#123;</span><br><span class="line">    normal = <span class="string">"normal"</span>,<span class="comment">//普通的字符串输入</span></span><br><span class="line">    number = <span class="string">"number"</span>,<span class="comment">//数字输入，对应antd的 InputNumber</span></span><br><span class="line">    text = <span class="string">"text"</span><span class="comment">//文本输入，对应 antd 的 Input.Text</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>3、创建 HXInputItem 的属性声明</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">interface HXInputProps &#123;</span><br><span class="line">    label: string;<span class="comment">//输入框的标签</span></span><br><span class="line">    name: string;<span class="comment">//输入框的变量名</span></span><br><span class="line">    getFieldDecorator: <span class="function">(<span class="params">name, options</span>) =&gt;</span> any;<span class="comment">//antd 的 Form 装饰器</span></span><br><span class="line">    fieldDecoratorOptions: object;<span class="comment">//antd Form 的表单域配置</span></span><br><span class="line">    formLayout?: object;<span class="comment">//antd 的 formLayout</span></span><br><span class="line">    inputProps?: object;<span class="comment">//对应 antd 的输入框的属性配置</span></span><br><span class="line">    formItemProps?: object;<span class="comment">//antd的 Form.Item的属性配置</span></span><br><span class="line">    elementType?: elementTypeEnum;<span class="comment">//表示使用哪种输入组件，默认normal</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>4、创建 HXInputItem的 SFC</p>
+<p>这一步非常重要，跟普通 React创建 SFC 有点区别。具体用法如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> HXInputItem: React.SFC&lt;HXInputProps&gt; = <span class="function"><span class="params">props</span> =&gt;</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到在 TS 创建 SFC 需要使用 <code>React.SFC</code>属性，否则无法创建成功。</p>
+<p>5、填充我们的 HXInputItem SFC</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//把当前传入的属性通过解构获取。</span></span><br><span class="line"><span class="keyword">const</span> &#123;</span><br><span class="line">        label,</span><br><span class="line">        name,</span><br><span class="line">        getFieldDecorator,</span><br><span class="line">        formLayout,</span><br><span class="line">        fieldDecoratorOptions,</span><br><span class="line">        inputProps,</span><br><span class="line">        formItemProps,</span><br><span class="line">        elementType</span><br><span class="line">    &#125; = props;</span><br><span class="line">   <span class="keyword">return</span> (</span><br><span class="line">        &lt;FormItem</span><br><span class="line">            &#123;...formLayout&#125;</span><br><span class="line">            label=&#123;&lt;span className=<span class="string">"form-label-text"</span>&gt;&#123;label&#125;&lt;<span class="regexp">/span&gt;&#125;</span></span><br><span class="line"><span class="regexp">            colon=&#123;false&#125;</span></span><br><span class="line"><span class="regexp">            hasFeedback</span></span><br><span class="line"><span class="regexp">            &#123;...formItemProps&#125;</span></span><br><span class="line"><span class="regexp">        &gt;</span></span><br><span class="line"><span class="regexp">            &#123;getFieldDecorator(name, fieldDecoratorOptions)(</span></span><br><span class="line"><span class="regexp">                elementType === "normal" ? (</span></span><br><span class="line"><span class="regexp">                    &lt;Input &#123;...inputProps&#125; /</span>&gt;</span><br><span class="line">                ) : elementType === <span class="string">"number"</span> ? (</span><br><span class="line">                    &lt;InputNumber &#123;...inputProps&#125; /&gt;</span><br><span class="line">                ) : (</span><br><span class="line">                    &lt;Input.TextArea rows=&#123;<span class="number">5</span>&#125; key=&#123;name&#125; &#123;...inputProps&#125; /&gt;</span><br><span class="line">                )</span><br><span class="line">            )&#125;</span><br><span class="line">        &lt;<span class="regexp">/FormItem&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br></pre></td></tr></table></figure>
+
+<p>通过<code>elementType</code>的值，调用不同的antd 中的输入组件，在项目中只引入当前SFC即可，让开发更加便利，快速和统一。若在以后的开发过程，存在特殊的需要，稍微兼容改造一下该组件即可，减少代码量。</p>
+<p>6、声明该 SFC 的默认属性</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">HXInputItem.defaultProps = &#123;</span><br><span class="line">    elementType: elementTypeEnum.normal</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>7、导出该组件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export default HXInputItem;</span><br></pre></td></tr></table></figure>
+
+<h1 id="二、用TS-加载远程数据-fetch-Api"><a href="#二、用TS-加载远程数据-fetch-Api" class="headerlink" title="二、用TS 加载远程数据(fetch Api)"></a>二、用TS 加载远程数据(fetch Api)</h1><p>1、定义 http Response 的 Interface</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> interface IRestRes &#123;</span><br><span class="line">    message?: string | <span class="literal">null</span>;<span class="comment">//可以是 undefined、null、string类型，</span></span><br><span class="line">    code?: number;</span><br><span class="line">    filename?: string | <span class="literal">null</span>;<span class="comment">//请求文件时的文件名</span></span><br><span class="line">    data?: any;<span class="comment">//普通 JSON 数据、file 二进制数据</span></span><br><span class="line">    loginAccount?: string;</span><br><span class="line">    name?: string;</span><br><span class="line">    roles?: <span class="built_in">Array</span>&lt;string&gt;;<span class="comment">// 可以是undefined、字符串的数组</span></span><br><span class="line">    token?: string;</span><br><span class="line">    type?: string | <span class="literal">null</span>;</span><br><span class="line">    total?: number;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2、定义统一的获取 JSON 数据的 fetch 方法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">/* *</span></span><br><span class="line"><span class="comment">* @desc 所有fetch请求的json 数据的基础；</span></span><br><span class="line"><span class="comment">  @author qimajiang  </span></span><br><span class="line"><span class="comment">* @param options object</span></span><br><span class="line"><span class="comment">* @param url stirng</span></span><br><span class="line"><span class="comment">* @return IRestRes   Promise</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> initialFetch = (url:string, <span class="attr">options</span>:<span class="built_in">Object</span>): <span class="built_in">Promise</span>&lt;IRestRes&gt; =&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> finalOpts = &#123;</span><br><span class="line">            headers: <span class="keyword">new</span> Headers(&#123;</span><br><span class="line">                Authorization: myToken,<span class="comment">//登录后需要传入该 header</span></span><br><span class="line">            &#125;),</span><br><span class="line">            ...options</span><br><span class="line">        &#125;;</span><br><span class="line">        fetch(url, finalOpts)</span><br><span class="line">            .then(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">                <span class="built_in">console</span>.log(res);</span><br><span class="line">                <span class="keyword">return</span> res.text();</span><br><span class="line">            &#125;)</span><br><span class="line">            .then(<span class="function"><span class="params">text</span> =&gt;</span> &#123;</span><br><span class="line">                <span class="comment">// <span class="doctag">TODO:</span>拦截所有响应， 处理 token 失效等情况 responseMiddleware</span></span><br><span class="line">                <span class="keyword">const</span> resJson = text ? <span class="built_in">JSON</span>.parse(text) : &#123;&#125;;</span><br><span class="line">                resolve(resJson <span class="keyword">as</span> IRestRes);<span class="comment">//将响应数据转换为IRestRes</span></span><br><span class="line">            &#125;)</span><br><span class="line">            .catch(<span class="function"><span class="params">e</span> =&gt;</span> &#123;</span><br><span class="line">                reject(e);<span class="comment">//请求失败的错误捕捉</span></span><br><span class="line">            &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>3、使用 fetch 的 get方法，请求JSON 数据</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">/* *</span></span><br><span class="line"><span class="comment">通用 fetchGetJson</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> fetchGetRequest = (api:string, params?:<span class="built_in">Object</span>): <span class="built_in">Promise</span>&lt;IRestRes&gt; =&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> url = <span class="keyword">new</span> URL(api);<span class="comment">//构造url</span></span><br><span class="line">        url.search = <span class="keyword">new</span> URLSearchParams(params);<span class="comment">//构造 search</span></span><br><span class="line">        initialFetch(url, &#123;</span><br><span class="line">            method: <span class="string">"GET"</span></span><br><span class="line">        &#125;)</span><br><span class="line">            .then(<span class="function"><span class="params">response</span> =&gt;</span> &#123;</span><br><span class="line">                <span class="built_in">console</span>.log(response, <span class="number">766</span>);</span><br><span class="line">                resolve(response);</span><br><span class="line">            &#125;)</span><br><span class="line">            .catch(<span class="function"><span class="params">e</span> =&gt;</span> &#123;</span><br><span class="line">                reject(e);</span><br><span class="line">            &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>3、使用 fetch 的 post，提交表单(FormData)</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">通用 提交表单</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> fetchPostForm = (url:string, <span class="attr">values</span>:object=&#123;&#125;): <span class="built_in">Promise</span>&lt;IRestRes&gt; =&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> formData = <span class="keyword">new</span> FormData();</span><br><span class="line">        <span class="built_in">Object</span>.keys(values).forEach(<span class="function"><span class="params">key</span> =&gt;</span> &#123;<span class="comment">//手动构造 FormData</span></span><br><span class="line">            <span class="keyword">const</span> vl = values[key];</span><br><span class="line">            <span class="keyword">if</span> (vl) &#123;</span><br><span class="line">                <span class="keyword">if</span> (vl.constructor !== <span class="built_in">Array</span>) &#123;</span><br><span class="line">                    formData.append(key, vl);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="comment">// 数组的数据</span></span><br><span class="line">                    <span class="comment">//  console.log(' 是数组，多个文件')</span></span><br><span class="line">                    <span class="keyword">const</span> fileList = vl;</span><br><span class="line">                    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; fileList.length; i++) &#123;</span><br><span class="line">                        <span class="keyword">const</span> item = fileList[i];</span><br><span class="line">                        <span class="comment">// console.log('每个文件内容',item,i, '数组长度',fileList.length)</span></span><br><span class="line">                        formData.append(key, item);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        initialFetch( url, &#123;</span><br><span class="line">            method: <span class="string">"POST"</span>,</span><br><span class="line">            body: formData <span class="comment">// data can be `string` or &#123;object&#125;!</span></span><br><span class="line">        &#125;)</span><br><span class="line">            .then(<span class="function"><span class="params">response</span> =&gt;</span> &#123;</span><br><span class="line">                <span class="built_in">console</span>.log(response, <span class="number">766</span>);</span><br><span class="line">                resolve(response);</span><br><span class="line">            &#125;)</span><br><span class="line">            .catch(<span class="function"><span class="params">e</span> =&gt;</span> &#123;</span><br><span class="line">                reject(e);</span><br><span class="line">            &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>4、使用 fetch 获取文件流</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* *</span></span><br><span class="line"><span class="comment">通用 fetchGetFile 获取文件</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> fetchGetFile = (api:string, params?:obejct): <span class="built_in">Promise</span>&lt;IRestRes&gt; =&gt; &#123;</span><br><span class="line">    <span class="keyword">let</span> url = <span class="keyword">new</span> URL(api);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> finalOps = &#123;</span><br><span class="line">            headers: <span class="keyword">new</span> Headers(&#123;</span><br><span class="line">                Authorization: myToken,</span><br><span class="line">                <span class="string">"Access-Control-Allow-Origin"</span>: BASE_URL,<span class="comment">//服务端必须响应 该header，否则无法获取到 Content-Disposition</span></span><br><span class="line">            &#125;),</span><br><span class="line">            ...params</span><br><span class="line">        &#125;;</span><br><span class="line">        fetch(url, finalOps)</span><br><span class="line">            .then(<span class="keyword">async</span> res =&gt; &#123;</span><br><span class="line">                <span class="comment">// <span class="doctag">TODO:</span>拦截所有响应， 处理 token 失效等情况 responseMiddleware</span></span><br><span class="line">                <span class="keyword">const</span> contentDisposition = res.headers.get(<span class="string">"Content-Disposition"</span>);</span><br><span class="line">                <span class="keyword">const</span> myBlob = <span class="keyword">await</span> res.blob();</span><br><span class="line">                <span class="keyword">const</span> Ires: IRestRes = &#123;</span><br><span class="line">                    data: myBlob,</span><br><span class="line">                    type: res.headers.get(<span class="string">"Content-Type"</span>),</span><br><span class="line">                    filename: <span class="built_in">decodeURI</span>(</span><br><span class="line">                        <span class="built_in">String</span>(contentDisposition).replace(<span class="string">"attachment;filename="</span>, <span class="string">""</span>) || <span class="string">""</span></span><br><span class="line">                    )</span><br><span class="line">                &#125;;</span><br><span class="line">                resolve(Ires);</span><br><span class="line">            &#125;)</span><br><span class="line">            .catch(<span class="function"><span class="params">e</span> =&gt;</span> &#123;</span><br><span class="line">                reject(e);</span><br><span class="line">            &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="三、-使用-TS创建普通的-React-组件"><a href="#三、-使用-TS创建普通的-React-组件" class="headerlink" title="三、 使用 TS创建普通的 React 组件"></a>三、 使用 TS创建普通的 React 组件</h1><p>先上完整的组件代码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> React <span class="keyword">from</span> <span class="string">"react"</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; observer, inject &#125; <span class="keyword">from</span> <span class="string">"mobx-react"</span>;</span><br><span class="line"><span class="keyword">import</span> IStore <span class="keyword">from</span> <span class="string">"../../interface/IStore"</span>;</span><br><span class="line"><span class="keyword">import</span> SearchType <span class="keyword">from</span> <span class="string">"../../enum/SearchType"</span>;</span><br><span class="line"><span class="comment">// const styles = require("./styles/index.less");</span></span><br><span class="line">interface SearchBoxProps &#123;</span><br><span class="line">    store?: IStore;</span><br><span class="line">    placeholder?: string;</span><br><span class="line">&#125;</span><br><span class="line">interface SearchBoxState &#123;</span><br><span class="line">    focus: boolean;</span><br><span class="line">    focusLock: boolean;</span><br><span class="line">    searchField: SearchType;</span><br><span class="line">    words: string;</span><br><span class="line">    searching: boolean;</span><br><span class="line">&#125;</span><br><span class="line">@inject(<span class="string">"store"</span>)</span><br><span class="line">@observer</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">SearchBox</span> <span class="keyword">extends</span> <span class="title">React</span>.<span class="title">Component</span>&lt;<span class="title">SearchBoxProps</span>, <span class="title">SearchBoxState</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(props) &#123;</span><br><span class="line">        <span class="keyword">super</span>(props);</span><br><span class="line">        <span class="keyword">this</span>.state = &#123;</span><br><span class="line">            focus: <span class="literal">false</span>,</span><br><span class="line">            focusLock: <span class="literal">false</span>,</span><br><span class="line">            searchField: SearchType.SEARCH_FIELD_ALL,</span><br><span class="line">            words: <span class="string">""</span>,</span><br><span class="line">            searching: <span class="literal">false</span></span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> defaultProps : &#123;</span><br><span class="line">        placeholder: <span class="string">'输入关键词并搜索'</span></span><br><span class="line">    &#125;</span><br><span class="line">    onFocus = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">            focus: <span class="literal">true</span></span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;;</span><br><span class="line">    onBlur = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.state.focusLock) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">            focus: <span class="literal">false</span></span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;;</span><br><span class="line">    onMouseEnter = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">            focusLock: <span class="literal">true</span></span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;;</span><br><span class="line">    onMouseLeave = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">this</span>.setState(&#123;</span><br><span class="line">            focusLock: <span class="literal">false</span></span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;;</span><br><span class="line">    render() &#123;</span><br><span class="line">        <span class="keyword">return</span> (</span><br><span class="line">            &lt;div</span><br><span class="line">                onFocus=&#123;<span class="keyword">this</span>.onFocus&#125;</span><br><span class="line">                onBlur=&#123;<span class="keyword">this</span>.onBlur&#125;</span><br><span class="line">                onMouseEnter=&#123;<span class="keyword">this</span>.onMouseEnter&#125;</span><br><span class="line">                onMouseLeave=&#123;<span class="keyword">this</span>.onMouseLeave&#125;</span><br><span class="line">            /&gt;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>有看出与普通 JS 创建React 组件的区别了吗？</p>
+<p>（1）、使用泛型定义组件的 props 与 state；</p>
+<p> (2)、创建默认的 state 值，必须在<code>SearchBoxState</code>已经定义，否则出错。</p>
+<p> (3)、   <code>defaultProps</code> 需要使用 <code>static</code> 修饰</p>
+<h1 id="四、创建-d-ts-文件"><a href="#四、创建-d-ts-文件" class="headerlink" title="四、创建 d.ts 文件"></a>四、创建 d.ts 文件</h1><p> 在项目根目录创建 typings 的文件夹，在 typings 中创建 <code>index.d.ts</code></p>
+<p> 文件中输入以下内容</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">interface <span class="built_in">Promise</span>&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">finally</span>: <span class="function">(<span class="params">callback</span>) =&gt;</span> <span class="built_in">Promise</span>&lt;T&gt;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 由于我们在使用 fetch 请求数据时，返回的数据使用 <code>Promise&lt;IRestRes&gt;</code>返回。如果不创建上门的 <code>d.ts</code>，编辑器在编译时可能无法<code>Promise&lt;IRestRes&gt;</code>。为什么呢？</p>
+<p>因为：</p>
+<p>typings的存在是为了方便TypeScript识别、编译、智能提示TypeScript无法识别的JS库的特性和语法。</p>
+<h1 id="五、总结"><a href="#五、总结" class="headerlink" title="五、总结"></a>五、总结</h1><p>TS在 React 的使用远不止这些，本文只是抛砖引玉，让我们对 TS 的了解更加深入，而且更是感叹 TS 的强大。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/React/" rel="tag"># React</a>
+          
+            <a href="/tags/TypeScript/" rel="tag"># TypeScript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/28/TypeScript 与 React /" rel="next" title="TypeScript 与 React">
+                <i class="fa fa-chevron-left"></i> TypeScript 与 React
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/14/使用React一年的简单总结/" rel="prev" title="使用React一年的简单总结">
+                使用React一年的简单总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">启码匠</p>
+              <div class="site-description motion-element" itemprop="description">学习如磨刀， 需要不断温故。</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">47</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、用-TS-创建-React-的-SFC-无状态组件"><span class="nav-number">1.</span> <span class="nav-text">一、用 TS 创建 React 的 SFC(无状态组件)</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#二、用TS-加载远程数据-fetch-Api"><span class="nav-number"></span> <span class="nav-text">二、用TS 加载远程数据(fetch Api)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、-使用-TS创建普通的-React-组件"><span class="nav-number"></span> <span class="nav-text">三、 使用 TS创建普通的 React 组件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四、创建-d-ts-文件"><span class="nav-number"></span> <span class="nav-text">四、创建 d.ts 文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#五、总结"><span class="nav-number"></span> <span class="nav-text">五、总结</span></a></li></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">启码匠</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.1.2</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>

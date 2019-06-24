@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="从本文开始，记录一直以来的 PHP 开发历程， 一方面，自己温故而知新； 另一方面，跟大家一起学习进步。 第一篇文章当然是搭建 PHP 开发环境啦。至于 PHP是什么，以及 PHP 能干什么等等的问题，我这不赘述，请自行 Google。">
+<meta name="keywords" content="PHP,开发环境,LAMP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="搭建PHP开发环境">
+<meta property="og:url" content="https://qimajiang.com/2017/02/25/PHP工匠历险记-开启篇-一、搭建PHP开发环境/index.html">
+<meta property="og:site_name" content="启码匠 - 磨刀霍霍向编程">
+<meta property="og:description" content="从本文开始，记录一直以来的 PHP 开发历程， 一方面，自己温故而知新； 另一方面，跟大家一起学习进步。 第一篇文章当然是搭建 PHP 开发环境啦。至于 PHP是什么，以及 PHP 能干什么等等的问题，我这不赘述，请自行 Google。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://ooo.0o0.ooo/2017/03/18/58cd43e5269e1.png">
+<meta property="og:image" content="https://ooo.0o0.ooo/2017/03/18/58cd44d33d068.png">
+<meta property="og:image" content="https://ooo.0o0.ooo/2017/03/18/58cd467d93a38.png">
+<meta property="og:updated_time" content="2019-06-24T06:11:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="搭建PHP开发环境">
+<meta name="twitter:description" content="从本文开始，记录一直以来的 PHP 开发历程， 一方面，自己温故而知新； 另一方面，跟大家一起学习进步。 第一篇文章当然是搭建 PHP 开发环境啦。至于 PHP是什么，以及 PHP 能干什么等等的问题，我这不赘述，请自行 Google。">
+<meta name="twitter:image" content="https://ooo.0o0.ooo/2017/03/18/58cd43e5269e1.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://qimajiang.com/2017/02/25/PHP工匠历险记-开启篇-一、搭建PHP开发环境/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>搭建PHP开发环境 | 启码匠 - 磨刀霍霍向编程</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">启码匠 - 磨刀霍霍向编程</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">磨刀霍霍向编程</h1>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://qimajiang.com/2017/02/25/PHP工匠历险记-开启篇-一、搭建PHP开发环境/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="启码匠">
+      <meta itemprop="description" content="学习如磨刀， 需要不断温故。">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="启码匠 - 磨刀霍霍向编程">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">搭建PHP开发环境
+
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-02-25 21:57:15" itemprop="dateCreated datePublished" datetime="2017-02-25T21:57:15+08:00">2017-02-25</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-24 14:11:04" itemprop="dateModified" datetime="2019-06-24T14:11:04+08:00">2019-06-24</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ul>
+<li>从本文开始，记录一直以来的 PHP 开发历程， 一方面，自己温故而知新； 另一方面，跟大家一起学习进步。 第一篇文章当然是搭建 PHP 开发环境啦。至于 PHP是什么，以及 PHP 能干什么等等的问题，我这不赘述，请自行 Google。<a id="more"></a>
+<h2 id="在-Mac-系统搭建-LAMP开发环境。"><a href="#在-Mac-系统搭建-LAMP开发环境。" class="headerlink" title="在 Mac 系统搭建 LAMP开发环境。"></a>在 Mac 系统搭建 LAMP开发环境。</h2></li>
+</ul>
+<h4 id="一、-启动-Apache"><a href="#一、-启动-Apache" class="headerlink" title="一、 启动 Apache"></a>一、 启动 Apache</h4><p>  mac 系统自带 Apache 服务器;只需要知道如何启动即可。一个方法是通过终端启动。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apachectl start</span><br></pre></td></tr></table></figure>
+
+<p> 此时在浏览器中输入<a href="http://localhost，会出现It" target="_blank" rel="noopener">http://localhost，会出现It</a> works！的页面。<br> 另外的方法是：   打开”系统偏好设置”-&gt;”共享”，在”互联网共享”那一项前面打√。</p>
+<h4 id="二、运行-PHP"><a href="#二、运行-PHP" class="headerlink" title="二、运行 PHP"></a>二、运行 PHP</h4><p>1、打开 Apache 的配置文件</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi httpd.conf</span><br></pre></td></tr></table></figure>
+
+<p> 找到 #LoadModule php5_module libexec/apache2/libphp5.so 这一行； 把前面的# 删除；然后保存退出。如图：</p>
+<p> <img src="https://ooo.0o0.ooo/2017/03/18/58cd43e5269e1.png" alt=""></p>
+<p> 2、重启 Apache, 然后 PHP 即可正常使用。<br> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apachectl restart</span><br></pre></td></tr></table></figure></p>
+<p> 3、检验 PHP 是否正常。<br> <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php -v</span><br></pre></td></tr></table></figure></p>
+<p> 是否看到 PHP 的版本信息；有的话证明已成功。如图：<br> <img src="https://ooo.0o0.ooo/2017/03/18/58cd44d33d068.png" alt=""></p>
+<p>4、 关于更多 PHP 命令行，可以自行搜索学习。常用的：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">php -i  <span class="comment">#查看 php 的详细信息；跟 phpinfo()效果一致。</span></span><br><span class="line"></span><br><span class="line">php -i | grep php.ini <span class="comment">#查看 php.ini 所在位置。</span></span><br><span class="line"></span><br><span class="line">php -m <span class="comment">#查看 php 扩展模块的安装情况</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="三、安装-MYSQL"><a href="#三、安装-MYSQL" class="headerlink" title="三、安装 MYSQL"></a>三、安装 MYSQL</h4><p>1、在<a href="http://dev.mysql.com/downloads/mysql/" target="_blank" rel="noopener">MYSQL</a>网站上，选择Mac OS X平台，然后选择图中的DMG格式下载<br><img src="https://ooo.0o0.ooo/2017/03/18/58cd467d93a38.png" alt=""><br>下载完后，自行安装。<br>2、修改 MYSQL 的密码；如设置密码为12345</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/mysql/bin/mysqladmin -u root password <span class="number">12345</span></span><br></pre></td></tr></table></figure>
+
+<p>3、 关于 MYSQL 的 GUI 管理工具；本人推荐 <a href="https://www.sequelpro.com/" target="_blank" rel="noopener">sequel pro</a> ；其他工具自行下载安装。</p>
+<h4 id="四、要想进行-PHP-开发，当然还要有编辑器，你可以选择自己喜欢的编辑器进行开发，但都推荐免费开源放工具，以免造成不要的麻烦。"><a href="#四、要想进行-PHP-开发，当然还要有编辑器，你可以选择自己喜欢的编辑器进行开发，但都推荐免费开源放工具，以免造成不要的麻烦。" class="headerlink" title="四、要想进行 PHP 开发，当然还要有编辑器，你可以选择自己喜欢的编辑器进行开发，但都推荐免费开源放工具，以免造成不要的麻烦。"></a>四、要想进行 PHP 开发，当然还要有编辑器，你可以选择自己喜欢的编辑器进行开发，但都推荐免费开源放工具，以免造成不要的麻烦。</h4><h2 id="Linux-安装-LAMP开发环境"><a href="#Linux-安装-LAMP开发环境" class="headerlink" title="Linux 安装 LAMP开发环境"></a>Linux 安装 LAMP开发环境</h2><p>  在这里推荐一步一步的进行安装，尤其的初学者，必须自己走一遍才知道如何安装，每个人出现的错误会不一样，在处理错误的过程一定会有收获。不建议，一开始为了省事，去使用<a href="https://lamp.sh/" target="_blank" rel="noopener">LAMP 一键安装脚本</a> ，当你完全掌握后，才推荐使用这种方法。由于 LINUX 的发行版本较多，这里以Centos7 系统为例子，其他发行版大同小异。</p>
+<h4 id="安装-Apache"><a href="#安装-Apache" class="headerlink" title="安装 Apache"></a>安装 Apache</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install httpd httpd-devel</span><br></pre></td></tr></table></figure>
+
+<h4 id="启动-Apache"><a href="#启动-Apache" class="headerlink" title="启动 Apache"></a>启动 Apache</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start httpd.service</span><br></pre></td></tr></table></figure>
+
+<p>测试以下apache是否安装成功，打开浏览器，输入<a href="http://localhost" target="_blank" rel="noopener">http://localhost</a>， 是否显示apache的主页。</p>
+<h4 id="安装MYSQL-mysql在centos7-0版本中被mariadb替代了。"><a href="#安装MYSQL-mysql在centos7-0版本中被mariadb替代了。" class="headerlink" title="安装MYSQL; mysql在centos7.0版本中被mariadb替代了。"></a>安装MYSQL; mysql在centos7.0版本中被mariadb替代了。</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum isntall mysql mysql-server</span><br></pre></td></tr></table></figure>
+
+<p>安装好了，选择修改mysql默认的root用户的密码，启动mysql服务。</p>
+<h4 id="启动-MYSQL"><a href="#启动-MYSQL" class="headerlink" title="启动 MYSQL"></a>启动 MYSQL</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service mysqld start</span><br></pre></td></tr></table></figure>
+
+<h4 id="安装-PHP"><a href="#安装-PHP" class="headerlink" title="安装 PHP"></a>安装 PHP</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install php56w.x86_64 php56w-cli.x86_64 php56w-common.x86_64 php56w-gd.x86_64 php56w-ldap.x86_64 php56w-mbstring.x86_64 php56w-mcrypt.x86_64 php56w-mysql.x86_64 php56w-pdo.x86_64</span><br></pre></td></tr></table></figure>
+
+<p>若要安装其它 PHP 版本，把56改成其它版本号即可。</p>
+<h4 id="安装-php-fpm"><a href="#安装-php-fpm" class="headerlink" title="安装 php-fpm"></a>安装 php-fpm</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install php56w-fpm</span><br></pre></td></tr></table></figure>
+
+<h4 id="安装pear"><a href="#安装pear" class="headerlink" title="安装pear"></a>安装pear</h4><p>// 下载 go-pear 脚本</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[arthur@arthur Downloads]$ wget http:<span class="comment">//pear.php.net/go-pear.phar</span></span><br><span class="line">php</span><br><span class="line"><span class="comment">// 先切换到root账户，避免指定安装目录的时候没有权限导致安装失败</span></span><br><span class="line">```bash</span><br><span class="line">[arthur@arthur Downloads]$ su</span><br><span class="line">Password:</span><br></pre></td></tr></table></figure>
+
+<p>// 执行安装</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@arthur Downloads]$ php go-pear.phar</span><br></pre></td></tr></table></figure>
+
+
+<p>#####配置pear命令 </p>
+<p>安装完成后，默认只能使用 安装目录/bin/pear的方式使用命令，为了方便后续直接使用，我们还需要把pear的安装目录加到配置文件中 /etc/profile<br>输入</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH=/opt/pear/bin:$PATH</span><br></pre></td></tr></table></figure>
+
+<p>更新</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source /etc/profile</span><br></pre></td></tr></table></figure>
+
+<h4 id="安装Composer"><a href="#安装Composer" class="headerlink" title="安装Composer"></a>安装Composer</h4><h1 id="下载composer-phar"><a href="#下载composer-phar" class="headerlink" title="下载composer.phar"></a>下载composer.phar</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -sS https:<span class="comment">//getcomposer.org/installer | php</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="把composer-phar移动到环境下让其变成可执行"><a href="#把composer-phar移动到环境下让其变成可执行" class="headerlink" title="把composer.phar移动到环境下让其变成可执行"></a>把composer.phar移动到环境下让其变成可执行</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv composer.phar /usr/local/bin/composer</span><br></pre></td></tr></table></figure>
+
+<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer -V</span><br></pre></td></tr></table></figure>
+
+<p>测试 PHP 是否安装成功；</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php -v</span><br></pre></td></tr></table></figure>
+
+<p>终端显示 PHP 的一些版本信息。</p>
+<h4 id="安装PHP-对-MYSQL-的支持"><a href="#安装PHP-对-MYSQL-的支持" class="headerlink" title="安装PHP 对 MYSQL 的支持"></a>安装PHP 对 MYSQL 的支持</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install php-mysql</span><br></pre></td></tr></table></figure>
+
+<p>基本的开发环境就可以搭建好了。</p>
+<h2 id="Windows-系统安装-LAMP-。哦，-我没用过-Windows-系统。个人建议开发还是尽量不要使用-Windows-了。当然非要在-Windows-上做开发的话，我这就不描述如何安装了。"><a href="#Windows-系统安装-LAMP-。哦，-我没用过-Windows-系统。个人建议开发还是尽量不要使用-Windows-了。当然非要在-Windows-上做开发的话，我这就不描述如何安装了。" class="headerlink" title="Windows 系统安装 LAMP 。哦， 我没用过 Windows 系统。个人建议开发还是尽量不要使用 Windows 了。当然非要在 Windows 上做开发的话，我这就不描述如何安装了。"></a>Windows 系统安装 LAMP 。哦， 我没用过 Windows 系统。个人建议开发还是尽量不要使用 Windows 了。当然非要在 Windows 上做开发的话，我这就不描述如何安装了。</h2><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p> 开发环境是所有开发的基础，一定要稳扎稳打，静静的自己安装，不要偷懒哦！平时多上网查看其它的文章教程，每个人写的文章不一样。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/PHP/" rel="tag"># PHP</a>
+          
+            <a href="/tags/开发环境/" rel="tag"># 开发环境</a>
+          
+            <a href="/tags/LAMP/" rel="tag"># LAMP</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/25/树莓派搭建反向代理，实现远程管理/" rel="next" title="树莓派搭建反向代理，实现远程管理">
+                <i class="fa fa-chevron-left"></i> 树莓派搭建反向代理，实现远程管理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/18/postgresql-数据库笔记/" rel="prev" title="postgresql 数据库笔记">
+                postgresql 数据库笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">启码匠</p>
+              <div class="site-description motion-element" itemprop="description">学习如磨刀， 需要不断温故。</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">47</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#在-Mac-系统搭建-LAMP开发环境。"><span class="nav-number">1.</span> <span class="nav-text">在 Mac 系统搭建 LAMP开发环境。</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、-启动-Apache"><span class="nav-number">1.0.1.</span> <span class="nav-text">一、 启动 Apache</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、运行-PHP"><span class="nav-number">1.0.2.</span> <span class="nav-text">二、运行 PHP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、安装-MYSQL"><span class="nav-number">1.0.3.</span> <span class="nav-text">三、安装 MYSQL</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、要想进行-PHP-开发，当然还要有编辑器，你可以选择自己喜欢的编辑器进行开发，但都推荐免费开源放工具，以免造成不要的麻烦。"><span class="nav-number">1.0.4.</span> <span class="nav-text">四、要想进行 PHP 开发，当然还要有编辑器，你可以选择自己喜欢的编辑器进行开发，但都推荐免费开源放工具，以免造成不要的麻烦。</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux-安装-LAMP开发环境"><span class="nav-number">2.</span> <span class="nav-text">Linux 安装 LAMP开发环境</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装-Apache"><span class="nav-number">2.0.1.</span> <span class="nav-text">安装 Apache</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动-Apache"><span class="nav-number">2.0.2.</span> <span class="nav-text">启动 Apache</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装MYSQL-mysql在centos7-0版本中被mariadb替代了。"><span class="nav-number">2.0.3.</span> <span class="nav-text">安装MYSQL; mysql在centos7.0版本中被mariadb替代了。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动-MYSQL"><span class="nav-number">2.0.4.</span> <span class="nav-text">启动 MYSQL</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装-PHP"><span class="nav-number">2.0.5.</span> <span class="nav-text">安装 PHP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装-php-fpm"><span class="nav-number">2.0.6.</span> <span class="nav-text">安装 php-fpm</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装pear"><span class="nav-number">2.0.7.</span> <span class="nav-text">安装pear</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装Composer"><span class="nav-number">2.0.8.</span> <span class="nav-text">安装Composer</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#下载composer-phar"><span class="nav-number"></span> <span class="nav-text">下载composer.phar</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#把composer-phar移动到环境下让其变成可执行"><span class="nav-number"></span> <span class="nav-text">把composer.phar移动到环境下让其变成可执行</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#测试"><span class="nav-number"></span> <span class="nav-text">测试</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装PHP-对-MYSQL-的支持"><span class="nav-number">0.0.1.</span> <span class="nav-text">安装PHP 对 MYSQL 的支持</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Windows-系统安装-LAMP-。哦，-我没用过-Windows-系统。个人建议开发还是尽量不要使用-Windows-了。当然非要在-Windows-上做开发的话，我这就不描述如何安装了。"><span class="nav-number">1.</span> <span class="nav-text">Windows 系统安装 LAMP 。哦， 我没用过 Windows 系统。个人建议开发还是尽量不要使用 Windows 了。当然非要在 Windows 上做开发的话，我这就不描述如何安装了。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">2.</span> <span class="nav-text">总结</span></a></li></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">启码匠</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.1.2</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>

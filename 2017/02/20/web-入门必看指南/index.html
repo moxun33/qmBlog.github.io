@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="整理本人从零开始学 web 开发的资料，和一些学习心得。">
+<meta name="keywords" content="web,入门指南">
+<meta property="og:type" content="article">
+<meta property="og:title" content="web 入门必看指南">
+<meta property="og:url" content="https://qimajiang.com/2017/02/20/web-入门必看指南/index.html">
+<meta property="og:site_name" content="启码匠 - 磨刀霍霍向编程">
+<meta property="og:description" content="整理本人从零开始学 web 开发的资料，和一些学习心得。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-24T06:11:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="web 入门必看指南">
+<meta name="twitter:description" content="整理本人从零开始学 web 开发的资料，和一些学习心得。">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://qimajiang.com/2017/02/20/web-入门必看指南/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>web 入门必看指南 | 启码匠 - 磨刀霍霍向编程</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">启码匠 - 磨刀霍霍向编程</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">磨刀霍霍向编程</h1>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://qimajiang.com/2017/02/20/web-入门必看指南/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="启码匠">
+      <meta itemprop="description" content="学习如磨刀， 需要不断温故。">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="启码匠 - 磨刀霍霍向编程">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">web 入门必看指南
+
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-02-20 21:24:25" itemprop="dateCreated datePublished" datetime="2017-02-20T21:24:25+08:00">2017-02-20</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-24 14:11:04" itemprop="dateModified" datetime="2019-06-24T14:11:04+08:00">2019-06-24</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ul>
+<li>整理本人从零开始学 web 开发的资料，和一些学习心得。<a id="more"></a>
+<h3 id="一-开发环境搭建"><a href="#一-开发环境搭建" class="headerlink" title="一.   开发环境搭建"></a>一.   开发环境搭建</h3></li>
+</ul>
+<ol>
+<li>wndows下可以使用集成的web服务器，推荐wampserver</li>
+</ol>
+<p>下载地址：<a href="http://pan.baidu.com/s/1qWA0KRq" target="_blank" rel="noopener">http://pan.baidu.com/s/1qWA0KRq</a> </p>
+<p>（1）Wampserver的安装，一路next下去。</p>
+<p>（2）过程中出现选择默认浏览器的操作，可以选择取消。</p>
+<p>（3）wampserver安装完成后，点击打开。找到www目录，这就是网页文件存放的地方。</p>
+<p>（4）关于phpmyadmin的使用，稍后再数据库mysql的部分介绍。</p>
+<p>（5）Windows的数据库管理工具还可以使用 navicat 软件。使用在后面介绍。</p>
+<p>（6）访问本地网站，在浏览器输入<a href="http://localhost" target="_blank" rel="noopener">http://localhost</a> </p>
+<ol start="2">
+<li>在linux下，以ubuntu系统为例子。（推荐使用ubuntu）</li>
+</ol>
+<p>(1)安装很简单，打开终端。输入 </p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install  apache2 mysql-server mysql-client php5 php5-gd php5-mysql</span><br></pre></td></tr></table></figure>
+
+<p>(2) 调整默认Web目录权限</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod <span class="number">777</span>  -R /<span class="keyword">var</span>/www/html</span><br></pre></td></tr></table></figure>
+
+<p>(3) Apache 配置</p>
+<p>启用 mod_rewrite 模块:终端命令：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo a2enmod rewrite</span><br></pre></td></tr></table></figure>
+
+<p>(4) 重启Apache服务器：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /etc/init.d/apache2 restart</span><br></pre></td></tr></table></figure>
+
+<p>(5)数据库管理软件 phpmyadmin 安装</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install phpmyadmin</span><br></pre></td></tr></table></figure>
+
+<p>（6） 安装时要求选择Web server：apache2或lighttpd，选择apache2，设置Mysql数据库密码。然后连接phpmyadmin与apache2，以我的为例：www在/var/www/html，phpmyadmin在/usr/share /phpmyadmin目录，用命令：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ln -s /usr/share/phpmyadmin /<span class="keyword">var</span>/www/html 建立连接。</span><br></pre></td></tr></table></figure>
+
+<p>（7）phpmyadmin测试，在浏览器中打开<a href="http://localhost/phpmyadmin" target="_blank" rel="noopener">http://localhost/phpmyadmin</a></p>
+<p>更多关于phpmyadmin的用法在数据库部分介绍。</p>
+<p>（8）访问本地网站在浏览器输入<a href="http://localhost" target="_blank" rel="noopener">http://localhost</a> </p>
+<h3 id="二-编辑器的选择与使用"><a href="#二-编辑器的选择与使用" class="headerlink" title="二. 编辑器的选择与使用"></a>二. 编辑器的选择与使用</h3><ol>
+<li><p>如果有编程的经历，可以使用自己熟悉的编辑器或者IDE</p>
+</li>
+<li><p>前端开发，可以使用vim. sublime. notepad++. editplus。</p>
+</li>
+<li><p>php开发，可以使用 上面所说的编辑器。也可以用php的IDE，例如PHPstorm。</p>
+</li>
+<li><p>各编辑器的使用可以参考网上的一些教程。只要一个原则，适合自己的编辑器才是最好的编辑器。</p>
+</li>
+<li><p>各编辑器的下载大家自己从网上下载。</p>
+</li>
+</ol>
+<h3 id="三-SVN的使用，下载地址-http-pan-baidu-com-s-1bntqrk7-，此针对windows系统。"><a href="#三-SVN的使用，下载地址-http-pan-baidu-com-s-1bntqrk7-，此针对windows系统。" class="headerlink" title="三. SVN的使用，下载地址 http://pan.baidu.com/s/1bntqrk7  ，此针对windows系统。"></a>三. SVN的使用，下载地址 <a href="http://pan.baidu.com/s/1bntqrk7" target="_blank" rel="noopener">http://pan.baidu.com/s/1bntqrk7</a>  ，此针对windows系统。</h3><ol>
+<li><p>SVN是Subversion的简称，是一个开放源代码的版本控制系统，相较于RCS. CVS，它采用了分支管理系统，它的设计目标就是取代CVS。互联网上很多版本控制服务已从CVS迁移到Subversion。</p>
+</li>
+<li><p>更多关于svn的使用教程，参考 <a href="http://pan.baidu.com/s/1hq7ZqIw" target="_blank" rel="noopener">http://pan.baidu.com/s/1hq7ZqIw</a>  上面的文档。</p>
+</li>
+<li><p>svn的好处就是一个团队的协作开发得到更好的控制，而且防止不可抗因素的出现导致源代码丢失。当然还可以使用github。</p>
+</li>
+</ol>
+<h3 id="四-ubuntu系统下SVN的安装与使用"><a href="#四-ubuntu系统下SVN的安装与使用" class="headerlink" title="四. ubuntu系统下SVN的安装与使用"></a>四. ubuntu系统下SVN的安装与使用</h3><ol>
+<li>安装svn客户端：<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">apt-get install subversion，然后根据提示一步一步，就完成了svn</span><br><span class="line">```php</span><br><span class="line"></span><br><span class="line">的安装。当然，也可以源码安装svn，下载subversion一个最新版本的源码包，解压之后就可以安装了。 </span><br><span class="line"></span><br><span class="line"><span class="number">2.</span>  新建一个目录，cd 到新建目录下，将文件checkout到本地目录：</span><br><span class="line">```php</span><br><span class="line">svn checkout</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>svn://192.168.100.249/server ，按提示输入相应的用户名和密码。 3.  可以输入：svn help 来查看svn提供的命令。 </p>
+<ol start="4">
+<li><p>往版本库中添加新的文件，例如: svn add *.c (添加当前目录下所有的c文件)。 5.  将改动的文件提交到版本库，例如：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">svn commit -m “add test file <span class="keyword">for</span> my test“  test.c 。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除文件，例如：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">svn delete svn:<span class="comment">//192.168.100.249/server/common/test.c -m “delete test file” 。</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果哪个命令不会使用可以通过输入：svn help 命令 的形式来查看帮助信息，例如：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">svn help chechout  输出信息如下： </span><br><span class="line"></span><br><span class="line">checkout (co): Check out a working copy from a repository. usage: checkout URL[@REV]... [PATH]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>更多关于ubuntu的svn使用，参考 <a href="http://pan.baidu.com/s/1mgxbHGW" target="_blank" rel="noopener">http://pan.baidu.com/s/1mgxbHGW</a> </p>
+</li>
+</ol>
+<h3 id="五-编程过程"><a href="#五-编程过程" class="headerlink" title="五. 编程过程"></a>五. 编程过程</h3><ol>
+<li>不管哪种编程都应该学会当遇到困难时，可先百度. 谷歌. 知网. 知乎；还可以加入一些对应的Q群，必要时询问Q群的大神；确实不行就跟团队成员交流。网上搜索，我十分推荐去谷歌搜索问题的解决办法，此处分享一个能上谷歌的番茄神器。 Hoststool。此处贴出windows的版本</li>
+</ol>
+<p><a href="http://pan.baidu.com/s/1jGtccf0" target="_blank" rel="noopener">http://pan.baidu.com/s/1jGtccf0</a>  使用方法按照上面的提示操作。</p>
+<p>关于其他操作系统的可以去官网下载，地址：</p>
+<p><a href="https://hosts.huhamhire.com/" target="_blank" rel="noopener">https://hosts.huhamhire.com/</a></p>
+<ol start="3">
+<li>这里也给出集成了翻墙软件的谷歌浏览器， 地址</li>
+</ol>
+<p>链接：<a href="http://pan.baidu.com/s/1c05zAqW" target="_blank" rel="noopener">http://pan.baidu.com/s/1c05zAqW</a>  密码：n3j9</p>
+<ol start="4">
+<li><p>由于web开发的运行环境就是平时使用的浏览器。至于使用哪个浏览器，在这我建议 谷歌浏览器 chrome ，还有火狐浏览器。若是前端开发，需要测试网站兼容性的，可以使用其他浏览器查看，但debug的功能最好在chrome或者火狐浏览器完成。</p>
+</li>
+<li><p>谷歌浏览器和火狐浏览器的前端debug使用方法，可以再网上搜索，在这里不再叙述。</p>
+</li>
+</ol>
+<h3 id="六-开发建议，所有语言教程，建议查看官方开发手册。"><a href="#六-开发建议，所有语言教程，建议查看官方开发手册。" class="headerlink" title="六. 开发建议，所有语言教程，建议查看官方开发手册。"></a>六. 开发建议，所有语言教程，建议查看官方开发手册。</h3><ol>
+<li>关于html，css和JavaScript的入门和使用教程，推荐去W3CSchool这个网站学习 ，网址<a href="http://www.w3cschool.cc/" target="_blank" rel="noopener">http://www.w3cschool.cc/</a></li>
+</ol>
+<p>也可以下载离线版本 <a href="http://pan.baidu.com/s/1kTj6DwF" target="_blank" rel="noopener">http://pan.baidu.com/s/1kTj6DwF</a></p>
+<ol start="2">
+<li>为了能快速开发，在开发过程中推荐使用前端框架，避免不必要的代码重复书写工作，加快项目进度。现在大多数网站采用bootstrap 这个前端框架 ，网址 <a href="http://www.bootcss.com/" target="_blank" rel="noopener">http://www.bootcss.com/</a>  至于这是什么样的框架和使用教程可以参考官网，不再叙述。</li>
+</ol>
+<p>还有AmazeUI 这个框架，使用教程参考官网 ，网址：<a href="http://amazeui.org/" target="_blank" rel="noopener">http://amazeui.org/</a></p>
+<p>*注：至于实际开发采用哪一个，看实际需要。</p>
+<ol start="3">
+<li>JavaScript的使用可以参考w3cschool 网站的教程。</li>
+</ol>
+<p>网址：<a href="http://www.w3cschool.cc/" target="_blank" rel="noopener">http://www.w3cschool.cc/</a> ，前端开发者，要熟悉使用jquery，还有封装项目中使用到的JavaScript 类库。</p>
+<ol start="4">
+<li><p>PHP教程，同样可以在w3cschool 网站找到。推荐查看php官网的手册，离线版本下载 <a href="http://pan.baidu.com/s/1hhhaY" target="_blank" rel="noopener">http://pan.baidu.com/s/1hhhaY</a>  ，这里还有php的基础教程，仅供参考<a href="http://pan.baidu.com/s/1eQy9SMu" target="_blank" rel="noopener">http://pan.baidu.com/s/1eQy9SMu</a></p>
+</li>
+<li><p>PHP框架，比如，国内的thinkphp 国产中较好的之一，网址：<a href="http://www.thinkphp.cn/" target="_blank" rel="noopener">http://www.thinkphp.cn/</a> 国外的laravel ，最受欢迎的，网址：<a href="http://laravel.com/" target="_blank" rel="noopener">http://laravel.com/</a> 。选择哪一个框架要结合项目开发需求和自己的开发经验。</p>
+</li>
+</ol>
+<p>学习框架的最好方法就是不断看手册和逛官方社区</p>
+<ol start="6">
+<li>mysql教程，同样可以在w3cschool 网站找到。推荐查看mysql官网的手册，离线版本下载</li>
+</ol>
+<p><a href="http://pan.baidu.com/s/1pJqPW1P" target="_blank" rel="noopener">http://pan.baidu.com/s/1pJqPW1P</a>  </p>
+<p>（1）     无论在windows还是ubuntu中，都可以使用数据库图形管理工具 phpmyadmin 。phpmyadmin的使用教程</p>
+<p><a href="http://pan.baidu.com/s/10JWtC" target="_blank" rel="noopener">http://pan.baidu.com/s/10JWtC</a> </p>
+<p>（2）     在windows中，我们还可以使用navicat for mysql 这个数据库图形管理工具 ，下载地址<a href="http://pan.baidu.com/s/1m6N1c" target="_blank" rel="noopener">http://pan.baidu.com/s/1m6N1c</a>  使用方法跟phpmyadmin差不多，但功能会多很多，自行探讨。</p>
+<p>（3）     数据库的开发可能需要用到建模工具，此处给出一个叫powerdesigner 的软件，下载地址：<a href="http://pan.baidu.com/s/1o6MGgXk" target="_blank" rel="noopener">http://pan.baidu.com/s/1o6MGgXk</a>  使用教程自行查询。</p>
+<ol start="7">
+<li>Git 的使用指南。 <a href="http://rogerdudler.github.io/git-guide/index.zh.html" target="_blank" rel="noopener">http://rogerdudler.github.io/git-guide/index.zh.html</a> 最开始我是使用 SVN 进行代码托管，后来改用 Git.两者的优缺点在这就不描述，看个人喜好。</li>
+</ol>
+<h3 id="七-总结"><a href="#七-总结" class="headerlink" title="七. 总结"></a>七. 总结</h3><ol>
+<li><p>不管做什么编程，都应该以实践为主，不要一直捧着书本或者一直看别人的视频，自己看懂了却不去动手敲代码。</p>
+</li>
+<li><p>以上的教程仅作参考，软件涉及到32位和64位的问题时，自行解决。</p>
+</li>
+<li><p>web编程中，不管是专注前端还是后台，都应该去了解自己未负责的部分，互相渗透。</p>
+</li>
+<li><p>若发现错漏之处，欢迎提出。</p>
+</li>
+</ol>
+<h2 id="希望大家技术猛进！"><a href="#希望大家技术猛进！" class="headerlink" title="希望大家技术猛进！"></a>希望大家技术猛进！</h2>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/web/" rel="tag"># web</a>
+          
+            <a href="/tags/入门指南/" rel="tag"># 入门指南</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/20/mac下-搭建Cordova-ionic-AngularJs开发环境/" rel="next" title="mac下 搭建Cordova+ionic+AngularJs开发环境">
+                <i class="fa fa-chevron-left"></i> mac下 搭建Cordova+ionic+AngularJs开发环境
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/21/objective-c初学笔记/" rel="prev" title="objective-c初学笔记">
+                objective-c初学笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">启码匠</p>
+              <div class="site-description motion-element" itemprop="description">学习如磨刀， 需要不断温故。</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">47</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-开发环境搭建"><span class="nav-number">1.</span> <span class="nav-text">一.   开发环境搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二-编辑器的选择与使用"><span class="nav-number">2.</span> <span class="nav-text">二. 编辑器的选择与使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三-SVN的使用，下载地址-http-pan-baidu-com-s-1bntqrk7-，此针对windows系统。"><span class="nav-number">3.</span> <span class="nav-text">三. SVN的使用，下载地址 http://pan.baidu.com/s/1bntqrk7  ，此针对windows系统。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四-ubuntu系统下SVN的安装与使用"><span class="nav-number">4.</span> <span class="nav-text">四. ubuntu系统下SVN的安装与使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五-编程过程"><span class="nav-number">5.</span> <span class="nav-text">五. 编程过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#六-开发建议，所有语言教程，建议查看官方开发手册。"><span class="nav-number">6.</span> <span class="nav-text">六. 开发建议，所有语言教程，建议查看官方开发手册。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#七-总结"><span class="nav-number">7.</span> <span class="nav-text">七. 总结</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#希望大家技术猛进！"><span class="nav-number"></span> <span class="nav-text">希望大家技术猛进！</span></a></li></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">启码匠</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.1.2</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>

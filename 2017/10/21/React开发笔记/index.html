@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="由于公司产品需要，最近一个月开始了 web 前端开发，技术栈是 webpack+react+mobx 的 react 全家桶架构。">
+<meta name="keywords" content="React,笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React开发笔记">
+<meta property="og:url" content="https://qimajiang.com/2017/10/21/React开发笔记/index.html">
+<meta property="og:site_name" content="启码匠 - 磨刀霍霍向编程">
+<meta property="og:description" content="由于公司产品需要，最近一个月开始了 web 前端开发，技术栈是 webpack+react+mobx 的 react 全家桶架构。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-24T06:11:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="React开发笔记">
+<meta name="twitter:description" content="由于公司产品需要，最近一个月开始了 web 前端开发，技术栈是 webpack+react+mobx 的 react 全家桶架构。">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://qimajiang.com/2017/10/21/React开发笔记/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>React开发笔记 | 启码匠 - 磨刀霍霍向编程</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">启码匠 - 磨刀霍霍向编程</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">磨刀霍霍向编程</h1>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://qimajiang.com/2017/10/21/React开发笔记/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="启码匠">
+      <meta itemprop="description" content="学习如磨刀， 需要不断温故。">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="启码匠 - 磨刀霍霍向编程">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">React开发笔记
+
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-10-21 20:18:52" itemprop="dateCreated datePublished" datetime="2017-10-21T20:18:52+08:00">2017-10-21</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-24 14:11:04" itemprop="dateModified" datetime="2019-06-24T14:11:04+08:00">2019-06-24</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ul>
+<li>由于公司产品需要，最近一个月开始了 web 前端开发，技术栈是 webpack+react+mobx 的 react 全家桶架构。<a id="more"></a>
+
+</li>
+</ul>
+<h2 id="什么是-react"><a href="#什么是-react" class="headerlink" title="什么是 react"></a>什么是 react</h2><p>文章的开始还是有必要介绍一下 react 的概念。react.js 是 FaceBook 研发的前端 JS 框架，主要 特色是使用虚拟 DOM，性能卓越。其本质还是使用 javascript 作为开发语言。但需要注意的是现在一般使用 ES6的新特性作为主流开发。这里不详细阐述各个概念了，可以自行查看相关资料。</p>
+<h2 id="应用框架结构设计"><a href="#应用框架结构设计" class="headerlink" title="应用框架结构设计"></a>应用框架结构设计</h2><p>这次的 react 开发应该算是我真正第一次独自负责，距离上一次的 react学习以及过去几个月的时间，当时react的版本 已经到了v15.6(现在 v16已经发布)，每个大版本的特性还是不大一样。尤其是 react-router4和 router3的区别很大，所以重新阅读最新的 react 开发文档是最稳妥的。由于这次的应用是对之前用传统 jquery 开发的<br>系统进行重构，所以在应用目录结构上是未知数。所有东西都是我自己去把握和决定。在开始的时候，使用了 koa2作为开发服务器，当时是基于这样的考虑：上线后可以继续使用 koa 作为 http 服务器，就不用配置 nginx 或者其他服务器，但几天后发现，很多东西还是跟传统的 mvc 框架的开发模式差不多，要定义很多的路由，使得整个开发效率大大降低。这种情况下，我决定推翻现有的架构，从零搭建一个 react 初始化模板。该模板的地址<a href="https://github.com/moxun33/react-mobx-antd-boilerplate" target="_blank" rel="noopener">https://github.com/moxun33/react-mobx-antd-boilerplate</a>。该模板使用的技术栈是 webpack+react+mobx+router4,前端 UI 是 ant-design。</p>
+<h2 id="组件化开发"><a href="#组件化开发" class="headerlink" title="组件化开发"></a>组件化开发</h2><p>我们都知道，在之前的jquery 开发的方式中，代码的组织和方式基本按照一个页面进行归类，不管这个页面需要多少的 js 代码都需要写在同一个文件，虽然有人会说我可以拆分一些出来啊，然而最后还是要引入到同个文件，而且文件之间的关系不够清晰，带来的问题就是维护难，代码可读性差。正是基于这个考虑，我们公司才决定使用 react 进行组件化开发。所谓的组件化管理，就是利用 ES6或之后的版本的 js 特性配合 react 的设计思想，对一个页面划分不同的组件，最后把这些组件导入到一个文件中，而且在组件化开发的过程中可以抽取一些比较通用的组件归并到组件的模块中，久而久之，就形成了我们自己系统的组件库了，对于主题定制和网站风格的定义还是比较有用 的。至于划分组件的标准是什么就不好定义了，打到一个页面，小到一个按钮都可以作为一个组件，在开发的过程中，会很自然的看出应该如何划分页面组件，但要记住的一点的，所有组件都是继承与 react 顶级 Component 类中。</p>
+<h2 id="高阶组件和-html-模板"><a href="#高阶组件和-html-模板" class="headerlink" title="高阶组件和 html 模板"></a>高阶组件和 html 模板</h2><p>当使用 react 进行组件化开发时，在不经意中会发现很多代码都是重复的（这里主要讲 react 组件的代码复用，忽略逻辑部分），那应该怎么提高组件代码复用率呢？</p>
+<h3 id="1、高级组件"><a href="#1、高级组件" class="headerlink" title="1、高级组件"></a>1、高级组件</h3><ul>
+<li>一个高阶组件只是一个包装了另外一个 React 组件的 React 组件。<br>这种形式通常实现为一个函数，本质上是一个类工厂（class factory），它下方的函数标签伪代码启发自 Haskell</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hocFactory:: W: React.Component =&gt; E: React.Component</span><br></pre></td></tr></table></figure>
+
+<p>这里 W（WrappedComponent） 指被包装的 React.Component，E（Enhanced Component） 指返回的新的高阶 React 组件。</p>
+<p>定义中的『包装』一词故意被定义的比较模糊，因为它可以指两件事情：</p>
+<p>(1) 属性代理（Props Proxy）：高阶组件操控传递给 WrappedComponent 的 props，<br>(2) 反向继承（Inheritance Inversion）：高阶组件继承（extends）WrappedComponent。</p>
+<p>高阶组件允许你做：</p>
+<p>a、代码复用，逻辑抽象，抽离底层准备（bootstrap）代码<br>b、渲染劫持<br>c、State 抽象和更改<br>d、Props 更改</p>
+<p>在目前的开发中，我只用了高级组件来包裹网站的权限组件，轻松管理完整元素权限和逻辑权限问题；还有就是解决在不同页面使用相同布局问题的重复工作；至于其他的用途在用到时将继续更新。</p>
+<h3 id="2、html-模板"><a href="#2、html-模板" class="headerlink" title="2、html 模板"></a>2、html 模板</h3><p>在很多时候，我们并不需要一个 react 组件去实现我们的一个视图，比如：自定义的列表，这个列表在所有地方都是一样的数据结构和样式，那么我们只需要把静态的 html 代码抽离到同个地方，抽象成一个工具函数，那么在使用的时候，传入模板数据就可以得到相同的视图效果而且不用重复考虑 css 布局问题。还有一个使用这种方式比较多的地方就是表单了，一个网站中表单有很多，但表单的输入框效果都大同小异，只要把当前的 react的 input 组件获取 ant-desing 的 input 组件等再高度定制成我们自己风格的 input 组件，那么在使用的时候，只需要传入特定的函数参数就可以 render 到一样的效果，而不用重复的使用 row 和 col 的去布局。而且这样做可以更好的管理css 样式和公用规则选项。这种方式，还是类似于我们以前的做法，但以前的 js 操作的 dom 是真实的 dom，性能很低，现在只是操作虚拟 dom，保证了网站的西能和开发效率。</p>
+<h2 id="遇到的坑"><a href="#遇到的坑" class="headerlink" title="遇到的坑"></a>遇到的坑</h2><p>1、使用 HOC 时，传入的 wrappedComponent 必须的 React type 例如：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> addBtn = (&lt;p&gt;hi!!!&lt;/p&gt;)</span><br><span class="line">  <span class="keyword">const</span> AddProjectAuthBtn = wrapAuth(()=&gt;addBtn)</span><br></pre></td></tr></table></figure>
+
+<p>常见错误是写成：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> addBtn = (&lt;p&gt;hi!!!&lt;/p&gt;)</span><br><span class="line">  <span class="keyword">const</span> AddProjectAuthBtn = wrapAuth(addBtn)</span><br></pre></td></tr></table></figure>
+
+<p>2、Javascript 中 formData 会把 null 对象转化成”null” 字符串;判断空对象{}的方法是</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> mobject = &#123;&#125;</span><br><span class="line">JSON.stringify(mobject) === <span class="string">"&#123;&#125;"</span></span><br></pre></td></tr></table></figure>
+
+<p>不能直接使用 mobject !== {}或 null 这种方式。</p>
+<p>3、ant-design 中 Select 组件同时设置了initialValue 和 placeholder,initialValue 为空的情况下 placeholder不生效,initialValue 不设置或设为 undefined，应该能解决。</p>
+<p>4、mobx 中@inject(‘modalStore’) @observer 需要放在其他注解的后面，否则无法更改状态</p>
+<p>5、从 http 的 response 中读取图片并显示到 dom 上, 请求的时候 responseType=”arrayBuffer”</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">getSupplierImageBuffer(&#123;id: attachId&#125;).then((res) =&gt; &#123;</span><br><span class="line">           <span class="keyword">const</span> arrayBufferView = <span class="keyword">new</span> Uint8Array(res);</span><br><span class="line">           <span class="keyword">return</span> <span class="keyword">new</span> Blob([arrayBufferView], &#123;type: <span class="string">"image/jpeg"</span>&#125;)</span><br><span class="line">       &#125;).then((myBlob) =&gt; &#123;</span><br><span class="line">           <span class="keyword">const</span> urlCreator = window.URL || window.webkitURL;</span><br><span class="line">           <span class="keyword">const</span> objectUrl = urlCreator.createObjectURL(myBlob);</span><br><span class="line">           screenshot.src = objectUrl;</span><br><span class="line"> &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>6、js 获取文件并处罚浏览器的下载功能, http 中 responseType=”blob” 可以使用 download.js 或者其他的 js 文件下载库 当然 可以自定义工具</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">fetch(<span class="string">'http://somehost/somefile.zip'</span>).then(res =&gt; res.blob().then(blob =&gt; &#123;</span><br><span class="line">    <span class="keyword">var</span> a = document.createElement(<span class="string">'a'</span>);</span><br><span class="line">    <span class="keyword">var</span> url = window.URL.createObjectURL(blob);</span><br><span class="line">    <span class="keyword">var</span> filename = <span class="string">'myfile.zip'</span>;</span><br><span class="line">    a.href = url;</span><br><span class="line">    a.download = filename;</span><br><span class="line">    a.click();</span><br><span class="line">    window.URL.revokeObjectURL(url);</span><br><span class="line">&#125;))</span><br></pre></td></tr></table></figure>
+
+<p>7、FormData 的 append 函数中,如果如果当前 key 对应的值是 null 或者 undefined，那么填入 FormData 中 的数据会变成 “null”或”undefined” 字符串。目前的解决办法时，只 append 飞非 null 的值。</p>
+<p>8、react 中每次调用 setState 方法设置新状态都会出发 render 事件， 但并不一定刷新页面，当DOM 树发生变化才会刷新 UI.</p>
+<p>9、样式的书写最好用 LESS,这样既可以定义主题也可以提高代码复用率。</p>
+<p>10、在编码的过程中需要不断的抽取共同代码， 封装成通用组件，这样才能提高代码质量， 还可以武装专有的‘武器库’。<br>11、前端的 pdf 预览最好使用浏览器自带的预览功能， 使用 iframe 加载 PDF 文件流:</p>
+<ul>
+<li>请求 responseType = ‘arraybuffer’</li>
+<li>响应处理  const data = window.URL.createObjectURL(new Blob([res], {type: “application/pdf”}))</li>
+<li>预览组件</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;object data=&#123;this.state.contractPDFUrl&#125; width=&#123;&apos;200px&apos;&#125; height=&#123;&apos;100px&apos;&#125;  &gt;</span><br><span class="line">      &lt;embed src=&#123;this.state.contractPDFUrl&#125;  width=&#123;&apos;200px&apos;&#125; height=&#123;&apos;100px&apos;&#125; /&gt;</span><br><span class="line"> &lt;/object&gt;</span><br></pre></td></tr></table></figure>
+
+<p>或者</p>
+<p> <code>&lt;iframe src={this.state.contractPDFUrl}  width={&#39;400px&#39;} height={&#39;500px&#39;} /&gt;</code></p>
+<p><code>embed 在 windows 下兼容性价差: 在firefox上 无法渲染；iframe 兼容性较好，推荐。</code></p>
+<p> 12、避免使用 window.history 或者 window.location; 推荐使用 react-router 。 因为当加入了 mobx 状态管理器后， 使用 window.location刷新页面, 体验较差。</p>
+<p> 13、 在 使用 mobx 下，当根据mobx 中的@observable isLogined 来判定授权与否， 当登录请求成功后，设置isLoginde<br> d 后，立刻跳转的话， 会出现404的情况， 因为未登录下， 没有设置 router， 解决方法：延时300ms 左右再跳转，可临时解决该问题。推荐解决方法是：把登录页写入相同的路由配置中。</p>
+<h2 id="代码片段"><a href="#代码片段" class="headerlink" title="代码片段"></a>代码片段</h2> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">/*、*</span><br><span class="line">*</span><br><span class="line">* 验证手机号码</span><br><span class="line">* */</span><br><span class="line">export const isMobilePoneValid = (str) =&gt; &#123;</span><br><span class="line">    const myreg = /^1[0-9]&#123;10&#125;$/;</span><br><span class="line">    return myreg.test(str)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 验证身份证号码</span><br><span class="line"> *</span><br><span class="line"> * */</span><br><span class="line">export const isIDNumberValid = (str) =&gt; &#123;</span><br><span class="line">    const myreg = /(^\d&#123;15&#125;$)|(^\d&#123;18&#125;$)|(^\d&#123;17&#125;(\d|X|x)$)/;</span><br><span class="line">    return myreg.test(str)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 函数去抖,针对winodw.onresize等事件</span><br><span class="line"> * @param &#123;Function&#125; method 需要去抖的方法</span><br><span class="line"> */</span><br><span class="line">export const debounce = method =&gt; &#123;</span><br><span class="line">	if (method.timeout) &#123;</span><br><span class="line">		clearTimeout(method.timeout);</span><br><span class="line">	&#125;</span><br><span class="line">	method.timeout = setTimeout(() =&gt; &#123;</span><br><span class="line">		method();</span><br><span class="line">	&#125;, 500);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 求两个数组的交集,非对象数组</span><br><span class="line"> * ES7  let intersection = allData.filter(v =&gt; editData.includes(v));</span><br><span class="line"> * */</span><br><span class="line">export const findArrayIntersection = (arr1, arr2) =&gt; &#123;</span><br><span class="line">	if (</span><br><span class="line">		Object.prototype.toString.call(arr1) === &apos;[object Array]&apos; &amp;&amp;</span><br><span class="line">		Object.prototype.toString.call(arr2) === &apos;[object Array]&apos;</span><br><span class="line">	) &#123;</span><br><span class="line">		return arr1.filter(function (v) &#123;</span><br><span class="line">			return arr2.indexOf(v) !== -1;</span><br><span class="line">		&#125;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 对象数组的交集,  数据结构必须相同</span><br><span class="line"> * */</span><br><span class="line"></span><br><span class="line">export const findArrayIntersectionOfObject = (list1, list2, key,isUnion = true) =&gt; &#123;</span><br><span class="line">	if (list2 !== undefined &amp;&amp; list2 !== undefined) &#123;</span><br><span class="line">		return list1.filter(a =&gt; isUnion === list2.some(b =&gt; a[key] === b[key]));</span><br><span class="line">	&#125; else &#123;</span><br><span class="line">		return [];</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 识别是否为微信浏览器</span><br><span class="line"> */</span><br><span class="line">export const isWeixinBrowser = () =&gt;</span><br><span class="line">	/micromessenger/.test(navigator.userAgent.toLowerCase());</span><br><span class="line"></span><br><span class="line">  /*</span><br><span class="line">* 根据 key在  object中 获取指定子 object</span><br><span class="line">*  </span><br><span class="line">* key：所查询的 key</span><br><span class="line">* value：查询 key 对应的 value</span><br><span class="line">* */</span><br><span class="line">export const findSubObjectInObject = (data, key, value) =&gt; &#123;</span><br><span class="line">	let target = &#123;&#125;;</span><br><span class="line">	for (let item in data) &#123;</span><br><span class="line">		const object = data[item];</span><br><span class="line"></span><br><span class="line">		if (</span><br><span class="line">			String(object[key]).includes(value) ||</span><br><span class="line">			String(value).includes(object[key])</span><br><span class="line">		) &#123;</span><br><span class="line">			target = object;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	if (!isObjectValid(target)) &#123;</span><br><span class="line">		openNotification(&apos;error&apos;, `无法获取$&#123;key&#125;与$&#123;value&#125;的映射`);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	return target;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 在新窗口打开给定的 html 元素（string）</span><br><span class="line"> * */</span><br><span class="line">export const openWinWithHtml = (myHtmlStr,spec = &apos;width=940,resizable=no,height=1200,location=no&apos;) =&gt; &#123;</span><br><span class="line">	const wnd = window.open(&apos;about:blank&apos;, &apos;_blank&apos;, spec);</span><br><span class="line">	wnd.document.write(convertStringToHtml(myHtmlStr));</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 自动调整图片宽高</span><br><span class="line"> * */</span><br><span class="line">export const autoSizeImg = (Img, maxWidth, maxHeight) =&gt; &#123;</span><br><span class="line">	const image = new Image();</span><br><span class="line">	//原图片原始地址（用于获取原图片的真实宽高，当&lt;img&gt;标签指定了宽、高时不受影响）</span><br><span class="line">	image.src = Img.src;</span><br><span class="line">	// 当图片比图片框小时不做任何改变</span><br><span class="line">	if (image.width &lt; maxWidth &amp;&amp; image.height &lt; maxHeight) &#123;</span><br><span class="line">		Img.width = image.width;</span><br><span class="line">		Img.height = image.height;</span><br><span class="line">	&#125; else &#123;</span><br><span class="line">		//原图片宽高比例 大于 图片框宽高比例,则以框的宽为标准缩放，反之以框的高为标准缩放</span><br><span class="line">		if (maxWidth / maxHeight &lt;= image.width / image.height) &#123;</span><br><span class="line">			//原图片宽高比例 大于 图片框宽高比例</span><br><span class="line">			Img.width = maxWidth; //以框的宽度为标准</span><br><span class="line">			Img.height = maxWidth * (image.height / image.width);</span><br><span class="line">		&#125; else &#123;</span><br><span class="line">			//原图片宽高比例 小于 图片框宽高比例</span><br><span class="line">			Img.width = maxHeight * (image.width / image.height);</span><br><span class="line">			Img.height = maxHeight; //以框的高度为标准</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	return Img;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="后续会继续更新"><a href="#后续会继续更新" class="headerlink" title="后续会继续更新"></a>后续会继续更新</h2>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/React/" rel="tag"># React</a>
+          
+            <a href="/tags/笔记/" rel="tag"># 笔记</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/03/mac下使用Vagrant-构建跨平台开发环境/" rel="next" title="mac 下使用Vagrant 构建跨平台开发环境">
+                <i class="fa fa-chevron-left"></i> mac 下使用Vagrant 构建跨平台开发环境
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/28/使用Jenkins自动部署React前端项目/" rel="prev" title="使用Jenkins自动部署React前端项目">
+                使用Jenkins自动部署React前端项目 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">启码匠</p>
+              <div class="site-description motion-element" itemprop="description">学习如磨刀， 需要不断温故。</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">47</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是-react"><span class="nav-number">1.</span> <span class="nav-text">什么是 react</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用框架结构设计"><span class="nav-number">2.</span> <span class="nav-text">应用框架结构设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组件化开发"><span class="nav-number">3.</span> <span class="nav-text">组件化开发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#高阶组件和-html-模板"><span class="nav-number">4.</span> <span class="nav-text">高阶组件和 html 模板</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、高级组件"><span class="nav-number">4.1.</span> <span class="nav-text">1、高级组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、html-模板"><span class="nav-number">4.2.</span> <span class="nav-text">2、html 模板</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#遇到的坑"><span class="nav-number">5.</span> <span class="nav-text">遇到的坑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码片段"><span class="nav-number">6.</span> <span class="nav-text">代码片段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后续会继续更新"><span class="nav-number">7.</span> <span class="nav-text">后续会继续更新</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">启码匠</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.1.2</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":true}});</script></body>
+</html>
